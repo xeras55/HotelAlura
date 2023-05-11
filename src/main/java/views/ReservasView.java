@@ -301,7 +301,20 @@ public class ReservasView extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
 					RegistroHuesped registro = new RegistroHuesped();
-					registro.setVisible(true);
+					int input = JOptionPane.showConfirmDialog(null, "¿El usuario está registrado?",
+					"Registo de Usuario", JOptionPane.YES_NO_OPTION,
+					JOptionPane.INFORMATION_MESSAGE);
+					switch (input) {
+						case 0:
+							System.out.println("si");
+							break;
+						case 1:
+						registro.setVisible(true);
+						// aqui se abre la ventana para registros
+						default:
+							break;
+					}
+					//registro.setVisible(true); aqui se abre la ventana para registros
 				} else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
 				}
@@ -312,6 +325,13 @@ public class ReservasView extends JFrame {
 		btnsiguiente.setBounds(238, 493, 122, 35);
 		panel.add(btnsiguiente);
 		btnsiguiente.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+		JLabel lblSiguente = new JLabel("SIGUENTE");
+		lblSiguente.setBounds(0, 0, 122, 35);
+		btnsiguiente.add(lblSiguente);
+		lblSiguente.setForeground(SystemColor.controlLtHighlight);
+		lblSiguente.setHorizontalAlignment(SwingConstants.CENTER);
+		lblSiguente.setFont(new Font("Roboto", Font.PLAIN, 18));
 
 	}
 

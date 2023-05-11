@@ -14,6 +14,9 @@ import java.awt.SystemColor;
 import java.awt.Font;
 import javax.swing.JPasswordField;
 import javax.swing.SwingConstants;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -197,6 +200,17 @@ public class Login extends JFrame {
 				Login();
 			}
 		});
+		txtContrasena.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e){
+				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+					//System.out.println("Enter");
+					Login();
+			}
+			}
+		});
+
+
 		btnLogin.setBackground(SystemColor.textHighlight);
 		btnLogin.setBounds(65, 431, 122, 44);
 		panel.add(btnLogin);
