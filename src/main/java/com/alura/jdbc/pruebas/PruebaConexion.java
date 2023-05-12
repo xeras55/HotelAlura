@@ -3,7 +3,7 @@ package com.alura.jdbc.pruebas;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import factory.ConnectionFactory;
+import com.alura.jdbc.factory.ConnectionFactory;
 
 
 
