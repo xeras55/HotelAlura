@@ -17,18 +17,19 @@ public class ReservaDao {
   public ReservaDao(Connection con){
     this.con = con;
   }
+  
 
   public void resgistrarReserva(Reserva reserva){
     try {
       PreparedStatement statement;
       statement = con.prepareStatement(
         "INSERT INTO RESERVAS"
-        +"(fechaDeEntrada, fechaDeSalida, valor, formaDePago)"
+        +"(fecha_de_entrada, fecha_de_salida, valor, forma_de_pago)"
         +"VALUES (?, ?, ? ,?)", Statement.RETURN_GENERATED_KEYS);
       
       try(statement){
-        statement.setDate(1, reserva.getFechaDeEntrada());
-        statement.setDate(2, reserva.getFechaDeSalida());
+        statement.setDate(1, reserva.getFecha_de_entrada());
+        statement.setDate(2, reserva.getFecha_de_salida());
         statement.setDouble(3, reserva.getValor());
         statement.setString(4, reserva.getFormaDePago());
         
@@ -39,7 +40,7 @@ public class ReservaDao {
           while (resultSet.next()) {
             reserva.setId(resultSet.getLong(1));
             
-            System.out.println(String.format("Su reserva fue agendada con exito: %s", reserva));
+            System.out.println(String.format("Su reserva fue agendada con exito: %s", reserva.getId()));
         }
       }
     } 

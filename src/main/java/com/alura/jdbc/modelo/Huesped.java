@@ -31,6 +31,17 @@ public class Huesped {
     this.telefono = telefono;
   }
 
+  public Huesped(Long id, String nombre, String apellido, Date fechaDeNacimiento, String nacionalidad, String telefono
+      ) {
+    this.id = id;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.fechaDeNacimiento = fechaDeNacimiento;
+    this.nacionalidad = nacionalidad;
+    this.telefono = telefono;
+    
+  }
+
   public Long getId() {
     return id;
   }

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.alura.jdbc.modelo.Huesped;
 
@@ -47,4 +49,33 @@ public class HuespuedDao {
       throw new RuntimeException(e);
     }
   }
+
+
+  public List<Huesped> listarHuesped(){
+    List<Huesped> resultado = new ArrayList<>();
+    try {
+      final PreparedStatement statement = con
+      .prepareStatement("SELECT * FROM HUESPEDES");
+
+      try(statement){
+        statement.execute();
+        final ResultSet resultSet = statement.getResultSet();
+        
+        try(resultSet){
+          while(resultSet.next()){
+            resultado.add(new Huesped(resultSet.getLong("ID"), resultSet.getString("NOMBRE"), resultSet.getString("APELLIDO"), resultSet.getDate("FECHADENACIMIENTO"), resultSet.getString("NACIONALIDAD"), resultSet.getString("TELEFONO")));
+          }
+        }
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+    return resultado;
+  }
+
+
+  public void borrarHuesped(){
+    
+  }
+
 }
