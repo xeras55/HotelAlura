@@ -1,5 +1,7 @@
 package com.alura.jdbc.controller;
 
+import java.util.List;
+
 import com.alura.jdbc.dao.ReservaDao;
 import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.modelo.Reserva;
@@ -17,4 +19,7 @@ public class ReservaController {
     reservaDao.resgistrarReserva(reserva);
   }
 
+  public List<Reserva> listarReserva(){
+    return reservaDao.listarReserva();
+  }
 }

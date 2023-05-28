@@ -20,7 +20,7 @@ public class Huesped {
 
   private String telefono;
 
-  private String idReserva;
+  private Long idReserva;
 
   public Huesped(String nombre, String apellido, Date fechaDeNacimiento, String nacionalidad,
       String telefono) {
@@ -91,11 +91,11 @@ public class Huesped {
     this.telefono = telefono;
   }
 
-  public String getIdReserva() {
-    return idReserva;
+  public Long getIdReserva() {
+    return this.idReserva;
   }
 
-  public void setIdReserva(String idReserva) {
+  public void setIdReserva(Long idReserva) {
     this.idReserva = idReserva;
   }
 

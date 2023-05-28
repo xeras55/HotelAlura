@@ -19,22 +19,42 @@ public class Reserva {
 
   private String formaDePago;
 
-  
+  private String forma_de_pago;
 
-  public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String formaDePago) {
+/*
+public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
+    this.id = id;
     this.fecha_de_entrada = fecha_de_entrada;
     this.fecha_de_salida = fecha_de_salida;
     this.valor = valor;
-    this.formaDePago = formaDePago;
+    this.forma_de_pago = forma_de_pago;
   }
-/*
+
+  
+  public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
+  this.fecha_de_entrada = fecha_de_entrada;
+  this.fecha_de_salida = fecha_de_salida;
+  this.valor = valor;
+  this.forma_de_pago = forma_de_pago;
+}
+ */
+
+
   public Reserva(Date fechaDeEntrada, Date fechaDeSalida, Double valor, String formaDePago) {
     this.fechaDeEntrada = fechaDeEntrada;
     this.fechaDeSalida = fechaDeSalida;
     this.valor = valor;
     this.formaDePago = formaDePago;
   }
- */
+
+  public Reserva(Long id, Date fechaDeEntrada, Date fechaDeSalida, Double valor, String formaDePago) {
+    this.id = id;
+    this.fechaDeEntrada = fechaDeEntrada;
+    this.fechaDeSalida = fechaDeSalida;
+    this.valor = valor;
+    this.formaDePago = formaDePago;
+  }
+
   public Long getId() {
     return id;
   }
@@ -85,6 +105,12 @@ public class Reserva {
   }
   public void setFecha_de_salida(Date fecha_de_salida) {
     this.fecha_de_salida = fecha_de_salida;
+  }
+  public String getForma_de_pago() {
+    return forma_de_pago;
+  }
+  public void setForma_de_pago(String forma_de_pago) {
+    this.forma_de_pago = forma_de_pago;
   }
 
 }
