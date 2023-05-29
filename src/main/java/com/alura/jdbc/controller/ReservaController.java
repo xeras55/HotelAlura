@@ -22,4 +22,11 @@ public class ReservaController {
   public List<Reserva> listarReserva(){
     return reservaDao.listarReserva();
   }
+
+  public List<Reserva> listarPorId(){
+    return reservaDao.buscarPorId();
+  }
+  public List<Reserva> listarPorId1(Long id){
+    return reservaDao.buscarPorId1(id);
+  }
 }

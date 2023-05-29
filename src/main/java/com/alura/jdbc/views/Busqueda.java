@@ -6,6 +6,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
+import com.alura.jdbc.controller.HuespedController;
+import com.alura.jdbc.controller.ReservaController;
+
 import javax.swing.JTable;
 import javax.swing.JTextField;
 //import javax.swing.JButton;
@@ -25,9 +29,15 @@ import javax.swing.ListSelectionModel;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-
+//import java.util.Date;
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
+	private static HuespedController HuespedController;
+	private static ReservaController ReservaController;
 
 	private JPanel contentPane;
 	private JTextField txtBuscar;
@@ -88,7 +98,6 @@ public class Busqueda extends JFrame {
 		panel.setBounds(20, 169, 865, 328);
 		contentPane.add(panel);
 
-		//todo
 		tbReservas = new JTable();
 		tbReservas.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tbReservas.setFont(new Font("Roboto", Font.PLAIN, 16));
@@ -98,6 +107,7 @@ public class Busqueda extends JFrame {
 		modelo.addColumn("Fecha Check Out");
 		modelo.addColumn("Valor");
 		modelo.addColumn("Forma de Pago");
+		modelo.addColumn("Habitacion");
 		JScrollPane scroll_table = new JScrollPane(tbReservas);
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/reservado.png")), scroll_table, null);
 		scroll_table.setVisible(true);
@@ -220,13 +230,53 @@ public class Busqueda extends JFrame {
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				ArrayList<String> separ = new ArrayList<>();
 				//todo
+				/* 
 				int selected = panel.getSelectedIndex();
 				if (selected == 0) {
-					System.out.println("Estoy buscando Reservas");
+					String valor = txtBuscar.getText();
+					Long valorLong = Long.parseLong(valor);
+					listarReservaPorId(valorLong);
 				} else {
-					System.out.println("Estoy buscando Huespedes");
+					String valor = txtBuscar.getText();
+					Long valorLong = Long.parseLong(valor);
+					listarHuespedPorId(valorLong);
 				}
+				*/
+				//! working on it
+				int selected = panel.getSelectedIndex();
+				if (selected == 0) {
+					System.out.println("soy reserva");
+				} else {
+					System.out.println("soy huesped");
+					String nombre = txtBuscar.getText();
+					System.out.println(nombre);
+					String[] arrayDatosSeparados = nombre.split(" ");
+					for (String i : arrayDatosSeparados) {
+						System.out.println(i);
+						separ.add(i);
+						
+					}
+					String nombreSeparado = separ.get(0);
+					String fechaSeparada = separ.get(1);
+					SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+					java.sql.Date fechaConvertida = null;
+					try {
+						java.util.Date fechaString = formato.parse(fechaSeparada);
+						fechaConvertida = new java.sql.Date(fechaString.getTime());
+						System.out.println(fechaConvertida);
+						
+					} catch (ParseException e1) {
+						e1.printStackTrace();
+					}
+					
+					//listarHuespedPorNombre(nombre);
+					listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
+				}
+
+				int selected1 = panel.getSelectedIndex();
+
 			}
 		});
 		btnbuscar.setLayout(null);
@@ -284,4 +334,64 @@ public class Busqueda extends JFrame {
 		int y = evt.getYOnScreen();
 		this.setLocation(x - xMouse, y - yMouse);
 	}
+
+	private void listarReservaPorId(Long id){
+		ReservaController = new ReservaController();
+		
+		var listaReservas = ReservaController.listarPorId1(id);
+		listaReservas.forEach(reserva -> modelo.addRow(
+			new Object[] {reserva.getId(),
+										reserva.getFecha_de_entrada(),
+										reserva.getFecha_de_salida(),
+										reserva.getValor(),
+										reserva.getForma_de_pago()}));
 }
+
+	private void listarHuespedPorId(Long id){
+		HuespedController = new HuespedController();
+
+		var listaHuespedes = HuespedController.listarPorId(id);
+		listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
+			new Object[] {huesped.getId(),
+										huesped.getNombre(),
+										huesped.getApellido(),
+										huesped.getfecha_de_nacimiento(),
+										huesped.getNacionalidad(),
+										huesped.getTelefono()
+								}));
+	}
+
+	private void listarHuespedPorNombre(String nombre){
+		HuespedController = new HuespedController();
+
+		var listaHuespedes = HuespedController.listarPorNombre(nombre);
+		listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
+			new Object[] {huesped.getId(),
+										huesped.getNombre(),
+										huesped.getApellido(),
+										huesped.getfecha_de_nacimiento(),
+										huesped.getNacionalidad(),
+										huesped.getTelefono()
+								}));
+	}
+
+	private void listarHuespedPorNombreFecha(String nombre, Date cum){
+		HuespedController = new HuespedController();
+
+		var listaHuespedes = HuespedController.listarPorNombreFecha(nombre, cum);
+		listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
+			new Object[] {huesped.getId(),
+										huesped.getNombre(),
+										huesped.getApellido(),
+										huesped.getfecha_de_nacimiento(),
+										huesped.getNacionalidad(),
+										huesped.getTelefono()
+								}));
+	}
+
+
+	}
+

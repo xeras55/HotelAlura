@@ -21,6 +21,7 @@ public class PruebasHuesped {
     //registrarReserva();
     //listarReserva();
     //resistrarHuespedReserva();
+    listarReservaPorId(2l);
   }
 
   private static void guardar() throws ParseException {
@@ -52,15 +53,18 @@ public class PruebasHuesped {
     java.sql.Date  fecha_de_entrada = new java.sql.Date(fechaUtil1.getTime());
     java.sql.Date fecha_de_salida = new java.sql.Date(fechaUtil2.getTime());
 
-    Reserva reserva = new Reserva(fecha_de_entrada, fecha_de_salida, 200.00, "Efectivo");
-    ReservaController.guardarReserva(reserva);
+    Reserva reserva1 = new Reserva(fecha_de_entrada, fecha_de_salida, 200.00, "Efectivo", "A1");
+    ReservaController.guardarReserva(reserva1);
   }
 
 
   private static void listarReserva(){
     ReservaController = new ReservaController();
+    
     var listaReservas = ReservaController.listarReserva();
     listaReservas.forEach(reserva -> System.out.println(reserva.getId()));
+    listaReservas.forEach(reserva -> System.out.println(reserva.getForma_de_pago()));
+    
   }
 
 
@@ -75,17 +79,19 @@ public class PruebasHuesped {
     java.sql.Date  fecha_de_entrada = new java.sql.Date(fechaUtil1.getTime());
     java.sql.Date fecha_de_salida = new java.sql.Date(fechaUtil2.getTime());
     Huesped huesped3 = new Huesped("Peter", "Parker", fechaDeNacimiento1, "Mexicana", "123456789");
-    Reserva reserva = new Reserva(fecha_de_entrada, fecha_de_salida, 500.00, "Efectivo");
-    ReservaController.guardarReserva(reserva);
+    Reserva reserva1 = new Reserva(fecha_de_entrada, fecha_de_salida, 200.00, "Efectivo", "A1");
+    ReservaController.guardarReserva(reserva1);
     HuespedController.guardar(huesped3);
     
   }
 
-  private void cargarTabla(){
-    var reservas = ReservaController.listarReserva();
+  private static void listarReservaPorId(Long id){
+    ReservaController = new ReservaController();
     
+    var listaReservas = ReservaController.listarPorId1(id);
+    listaReservas.forEach(reserva -> System.out.println(reserva.getId()));
+    listaReservas.forEach(reserva -> System.out.println(reserva.getForma_de_pago()));
     
-    reservas.forEach(reserva -> System.out.println(reserva.getId()));
   }
 
 }

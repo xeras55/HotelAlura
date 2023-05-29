@@ -7,14 +7,13 @@ public class Huesped {
 
   private Long id;
 
+  private Long id_reserva;
+
   private String nombre;
 
   private String apellido;
 
-
-  //Date fecha = new Date();
-  private Date fechaDeNacimiento;
-  
+  private Date fecha_de_nacimiento;
 
   private String nacionalidad;
 
@@ -22,26 +21,52 @@ public class Huesped {
 
   private Long idReserva;
 
-  public Huesped(String nombre, String apellido, Date fechaDeNacimiento, String nacionalidad,
-      String telefono) {
-    this.nombre = nombre;
-    this.apellido = apellido;
-    this.fechaDeNacimiento = fechaDeNacimiento;
-    this.nacionalidad = nacionalidad;
-    this.telefono = telefono;
-  }
+  private String todas_id;
 
-  public Huesped(Long id, String nombre, String apellido, Date fechaDeNacimiento, String nacionalidad, String telefono
+
+
+  
+  public Huesped(Long id, String nombre, String apellido, Date fecha_de_nacimiento, String nacionalidad, String telefono
       ) {
     this.id = id;
     this.nombre = nombre;
     this.apellido = apellido;
-    this.fechaDeNacimiento = fechaDeNacimiento;
+    this.fecha_de_nacimiento = fecha_de_nacimiento;
     this.nacionalidad = nacionalidad;
     this.telefono = telefono;
     
   }
+  /*
+  public Huesped(Long id_reserva, String nombre, String apellido, Date fecha_de_nacimiento, String nacionalidad,
+      String telefono) {
+    this.id_reserva = id_reserva;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.fecha_de_nacimiento = fecha_de_nacimiento;
+    this.nacionalidad = nacionalidad;
+    this.telefono = telefono;
+  }
+  */
+  public Huesped(String nombre, String apellido, Date fecha_de_nacimiento, String nacionalidad,
+      String telefono) {
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.fecha_de_nacimiento = fecha_de_nacimiento;
+    this.nacionalidad = nacionalidad;
+    this.telefono = telefono;
+  }
 
+  
+  public Huesped(Long id_reserva) {
+    this.id_reserva = id_reserva;
+  }
+
+  
+  public Huesped(String todas_id) {
+    this.todas_id = todas_id;
+  }
+
+  
   public Long getId() {
     return id;
   }
@@ -67,12 +92,12 @@ public class Huesped {
   }
 
 
-  public Date getFechaDeNacimiento() {
-    return fechaDeNacimiento;
+  public Date getfecha_de_nacimiento() {
+    return fecha_de_nacimiento;
   }
 
-  public void setFechaDeNacimiento(Date fechaDeNacimiento) {
-    this.fechaDeNacimiento = fechaDeNacimiento;
+  public void setfecha_de_nacimiento(Date fecha_de_nacimiento) {
+    this.fecha_de_nacimiento = fecha_de_nacimiento;
   }
 
   public String getNacionalidad() {
@@ -98,5 +123,30 @@ public class Huesped {
   public void setIdReserva(Long idReserva) {
     this.idReserva = idReserva;
   }
+
+  public Long getId_reserva() {
+    return id_reserva;
+  }
+
+  public void setId_reserva(Long id_reserva) {
+    this.id_reserva = id_reserva;
+  }
+
+  public Date getFecha_de_nacimiento() {
+    return fecha_de_nacimiento;
+  }
+
+  public void setFecha_de_nacimiento(Date fecha_de_nacimiento) {
+    this.fecha_de_nacimiento = fecha_de_nacimiento;
+  }
+
+  public String getTodas_id() {
+    return todas_id;
+  }
+
+  public void setTodas_id(String todas_id) {
+    this.todas_id = todas_id;
+  }
+
 
 }

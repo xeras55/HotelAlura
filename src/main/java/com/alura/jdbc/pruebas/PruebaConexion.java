@@ -18,6 +18,7 @@ public class PruebaConexion {
     System.out.println("Cerrando la conexión");
 
     con.close();
+    
   }
 
 }

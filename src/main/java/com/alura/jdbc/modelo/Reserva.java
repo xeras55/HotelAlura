@@ -11,7 +11,6 @@ public class Reserva {
   private Date fechaDeSalida;
 
   private Date fecha_de_entrada;
-  ;
 
   private Date fecha_de_salida;
 
@@ -21,7 +20,9 @@ public class Reserva {
 
   private String forma_de_pago;
 
-/*
+  private String habitacion;
+
+
 public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
     this.id = id;
     this.fecha_de_entrada = fecha_de_entrada;
@@ -31,15 +32,16 @@ public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor
   }
 
   
-  public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
+  public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago, String habitacion) {
   this.fecha_de_entrada = fecha_de_entrada;
   this.fecha_de_salida = fecha_de_salida;
   this.valor = valor;
   this.forma_de_pago = forma_de_pago;
+  this.habitacion = habitacion;
 }
- */
 
 
+/*
   public Reserva(Date fechaDeEntrada, Date fechaDeSalida, Double valor, String formaDePago) {
     this.fechaDeEntrada = fechaDeEntrada;
     this.fechaDeSalida = fechaDeSalida;
@@ -54,7 +56,7 @@ public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor
     this.valor = valor;
     this.formaDePago = formaDePago;
   }
-
+ */
   public Long getId() {
     return id;
   }
@@ -88,7 +90,7 @@ public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor
   }
 
   public String getFormaDePago() {
-    return formaDePago;
+    return formaDePago; 
   }
 
   public void setFormaDePago(String formaDePago) {
@@ -113,4 +115,16 @@ public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor
     this.forma_de_pago = forma_de_pago;
   }
 
+
+  public String getHabitacion() {
+    return habitacion;
+  }
+
+
+  public void setHabitacion(String habitacion) {
+    this.habitacion = habitacion;
+  }
+
+
+  
 }
