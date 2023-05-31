@@ -12,12 +12,17 @@ import com.alura.jdbc.controller.ReservaController;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.DefaultComboBoxModel;
 //import javax.swing.JButton;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+
 import java.awt.Color;
 //import java.awt.SystemColor;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.SystemColor;
+
 //import java.awt.event.ActionListener;
 //import java.util.List;
 //import java.awt.event.ActionEvent;
@@ -26,19 +31,26 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
+
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 //import java.util.Date;
 import java.sql.Date;
+import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
 	private static HuespedController HuespedController;
 	private static ReservaController ReservaController;
-
+	private JComboBox<Format> txtTipoDeBusqueda;
 	private JPanel contentPane;
 	private JTextField txtBuscar;
 	private JTable tbHuespedes;
@@ -112,6 +124,16 @@ public class Busqueda extends JFrame {
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/reservado.png")), scroll_table, null);
 		scroll_table.setVisible(true);
 
+		txtTipoDeBusqueda = new JComboBox();
+		txtTipoDeBusqueda.setBounds(350, 128, 170, 20);
+		txtTipoDeBusqueda.setBackground(SystemColor.text);
+		txtTipoDeBusqueda.setFont(new Font("Roboto", Font.PLAIN, 12));
+		txtTipoDeBusqueda.setModel(new DefaultComboBoxModel(new String[]{
+			"Tipo de busqueda","ID", "Nombre y fecha de nacimiento"
+		}));
+		txtTipoDeBusqueda.setEnabled(false);
+		contentPane.add(txtTipoDeBusqueda);
+		
 
 		tbHuespedes = new JTable();
 		tbHuespedes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -128,8 +150,20 @@ public class Busqueda extends JFrame {
 		panel.addTab("Huéspedes", new ImageIcon(Busqueda.class.getResource("/imagenes/pessoas.png")), scroll_tableHuespedes,
 				null);
 		scroll_tableHuespedes.setVisible(true);
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println(panel.getSelectedIndex());
+				if (panel.getSelectedIndex() == 0) {
+					txtTipoDeBusqueda.setEnabled(false);
+					txtTipoDeBusqueda.setSelectedIndex(0);
+				} else {
+					txtTipoDeBusqueda.setEnabled(true);
+				}
+			}
+		});
 
-
+		
 
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/Ha-100px.png")));
@@ -232,7 +266,7 @@ public class Busqueda extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				ArrayList<String> separ = new ArrayList<>();
 				//todo
-				/* 
+				
 				int selected = panel.getSelectedIndex();
 				if (selected == 0) {
 					String valor = txtBuscar.getText();
@@ -240,12 +274,41 @@ public class Busqueda extends JFrame {
 					listarReservaPorId(valorLong);
 				} else {
 					String valor = txtBuscar.getText();
-					Long valorLong = Long.parseLong(valor);
-					listarHuespedPorId(valorLong);
+					Integer tipoDebusqueda = txtTipoDeBusqueda.getSelectedIndex();
+					if (tipoDebusqueda == 1) {
+						System.out.println("Busqueda Por id");
+						Long valorLong = Long.parseLong(valor);
+						listarHuespedPorId(valorLong);
+					} else if (tipoDebusqueda == 2){
+						System.out.println("Busqueda Por nombre y fecha");
+						String nombre = txtBuscar.getText();
+						System.out.println(nombre);
+						String[] arrayDatosSeparados = nombre.split(" ");
+						for (String i : arrayDatosSeparados) {
+							System.out.println(i);
+							separ.add(i);
+						}
+						String nombreSeparado = separ.get(0);
+						String fechaSeparada = separ.get(1);
+						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+						java.sql.Date fechaConvertida = null;
+						try {
+							java.util.Date fechaString = formato.parse(fechaSeparada);
+							fechaConvertida = new java.sql.Date(fechaString.getTime());
+							System.out.println(fechaConvertida);
+							
+						} catch (ParseException e1) {
+							e1.printStackTrace();
+						}
+						//listarHuespedPorNombre(nombre);
+						listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
+					}
+					//Long valorLong = Long.parseLong(valor);
+					
 				}
-				*/
+				
 				//! working on it
-				int selected = panel.getSelectedIndex();
+				/*
 				if (selected == 0) {
 					System.out.println("soy reserva");
 				} else {
@@ -270,12 +333,10 @@ public class Busqueda extends JFrame {
 					} catch (ParseException e1) {
 						e1.printStackTrace();
 					}
-					
 					//listarHuespedPorNombre(nombre);
-					listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
+					//listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
 				}
-
-				int selected1 = panel.getSelectedIndex();
+				*/
 
 			}
 		});
