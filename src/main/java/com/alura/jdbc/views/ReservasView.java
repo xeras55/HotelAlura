@@ -11,6 +11,10 @@ import javax.swing.ImageIcon;
 import java.awt.Color;
 import javax.swing.JTextField;
 
+import com.alura.jdbc.controller.ReservaController;
+import com.alura.jdbc.dao.RegistroReservaHuesped;
+import com.alura.jdbc.dao.ReservaDao;
+import com.alura.jdbc.modelo.Reserva;
 import com.toedter.calendar.JDateChooser;
 import java.awt.Font;
 import javax.swing.JComboBox;
@@ -21,19 +25,27 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.awt.Toolkit;
 import java.beans.PropertyChangeListener;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.beans.PropertyChangeEvent;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
+
 @SuppressWarnings("serial")
 public class ReservasView extends JFrame {
+	
+	private static ReservaController reservaController;
+	//Reserva reserva = registrarReserva();
+	private  ReservaDao resgistrarReserva;
 
 	private JPanel contentPane;
 	public static JTextField txtValor;
 	public static JDateChooser txtFechaEntrada;
 	public static JDateChooser txtFechaSalida;
 	public static JComboBox<String> txtFormaPago;
+	private JTextField txtPrecio;
 	int xMouse, yMouse;
 	private JLabel labelExit;
 	private JLabel labelAtras;
@@ -152,6 +164,14 @@ public class ReservasView extends JFrame {
 		separator_1.setBackground(SystemColor.textHighlight);
 		panel.add(separator_1);
 
+		txtPrecio = new JTextField();
+		//txtPrecio.setBounds(50, 50, 100, 20);
+		txtPrecio.setBounds(70, 330, 285, 31);
+		txtPrecio.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtPrecio.setFont(new Font("Roboto Black", Font.PLAIN, 20));
+		//txtPrecio.setBackground(Color.red);
+		contentPane.add(txtPrecio);
+		txtPrecio.setColumns(10);
 		// Componentes para dejar la interfaz con estilo Material Design
 		final JPanel btnexit = new JPanel();
 		btnexit.addMouseListener(new MouseAdapter() {
@@ -242,6 +262,7 @@ public class ReservasView extends JFrame {
 		lblSiguiente.setForeground(Color.WHITE);
 		lblSiguiente.setFont(new Font("Roboto", Font.PLAIN, 18));
 		lblSiguiente.setBounds(0, 0, 122, 35);
+		
 
 		// Campos que guardaremos en la base de datos
 		txtFechaEntrada = new JDateChooser();
@@ -286,6 +307,7 @@ public class ReservasView extends JFrame {
 		txtValor.setBorder(javax.swing.BorderFactory.createEmptyBorder());
 		panel.add(txtValor);
 		txtValor.setColumns(10);
+		
 
 		txtFormaPago = new JComboBox();
 		txtFormaPago.setBounds(68, 417, 289, 38);
@@ -300,6 +322,8 @@ public class ReservasView extends JFrame {
 		btnsiguiente.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				RegistroHuesped registro = new RegistroHuesped();
+				/*
 				if (ReservasView.txtFechaEntrada.getDate() != null && ReservasView.txtFechaSalida.getDate() != null) {
 					RegistroHuesped registro = new RegistroHuesped();
 					int input = JOptionPane.showConfirmDialog(null, "¿El usuario está registrado?",
@@ -319,6 +343,10 @@ public class ReservasView extends JFrame {
 				} else {
 					JOptionPane.showMessageDialog(null, "Debes llenar todos los campos.");
 				}
+				*/
+				registrarReserva();
+				registro.setVisible(true);
+				System.out.println("aaaaaaaaaa");				
 			}
 		});
 		btnsiguiente.setLayout(null);
@@ -348,4 +376,30 @@ public class ReservasView extends JFrame {
 		int y = evt.getYOnScreen();
 		this.setLocation(x - xMouse, y - yMouse);
 	}
+
+	private void registrarReserva(){
+		reservaController = new ReservaController();
+		
+		//SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+		java.util.Date selectFechaE = txtFechaEntrada.getDate();
+		System.out.println(selectFechaE);
+		java.sql.Date fechaDeEntrada = new java.sql.Date(selectFechaE.getTime());
+		//System.out.println(fechaDeEntrada);
+
+		java.util.Date selectFechaS = txtFechaSalida.getDate();
+		System.out.println(selectFechaS);
+		java.sql.Date fechaDeSalida = new java.sql.Date(selectFechaS.getTime());
+		//System.out.println(fechaDeSalida);
+		System.out.println(txtPrecio.getText());
+		System.out.println(txtFormaPago.getSelectedItem());
+		String formaPago =txtFormaPago.getSelectedItem().toString();
+		//int valorPrecio = Integer.parseInt(txtPrecio.getText());
+		Double valorDouble = Double.parseDouble(txtPrecio.getText());
+
+		Reserva reserva = new Reserva(fechaDeEntrada, fechaDeSalida,valorDouble ,formaPago);
+		//System.out.println(reserva.getId());
+		reservaController.registrarReserva(reserva);
+		
+	}
+	
 }

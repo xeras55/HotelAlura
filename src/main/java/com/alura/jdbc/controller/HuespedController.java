@@ -39,4 +39,15 @@ public class HuespedController {
   public List<Huesped> listarPorNombreFecha(String nombre, Date cum) {
     return huespuedDao.buscarHuespedNombreFechaAhorasi(nombre, cum);
   }
+
+  public void modificarHuesped(String nombre, String apellido, Date fecha_de_nacimiento, String nacionalidad, String telefono, long id){
+    huespuedDao.editarDatosHuesped(nombre, apellido, fecha_de_nacimiento, nacionalidad, telefono, id);
+  }
+  public void registrarHuspedF(Huesped huespued){
+    huespuedDao.registrarHuespedF(huespued);
+  }
+
+  public void borrarHuesped(Long id){
+    huespuedDao.borrarHuesped(id);
+  }
 }

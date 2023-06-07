@@ -41,8 +41,8 @@ public class HuespuedDao {
         try(resultSet){
           while (resultSet.next()) {
             huesped.setId(resultSet.getLong(1));
-            
-            System.out.println(String.format("Fue registrado el huesped: %s", huesped.getNombre()));
+            //System.out.println(String.format("Fue registrado el huesped: %s", huesped.getNombre()));
+            //long idReserva = statement.getGeneratedKeys().getLong(1);
         }
       }
     }
@@ -115,7 +115,7 @@ public class HuespuedDao {
     List<Huesped> resultado = new ArrayList<>();
     try {
       final PreparedStatement statement = con
-      .prepareStatement("SELECT * FROM HUESPEDES WHERE id = ?");
+      .prepareStatement("SELECT * FROM HUESPEDES WHERE id = ?  || borrar = TRUE");
 
       statement.setLong(1, id);
 
@@ -129,7 +129,8 @@ public class HuespuedDao {
                                       resultSet.getString("apellido"),
                                       resultSet.getDate("fecha_de_nacimiento"),
                                       resultSet.getString("nacionalidad"),
-                                      resultSet.getString("telefono")));
+                                      resultSet.getString("telefono"),
+                                      resultSet.getLong("id_reserva")));
           }
         }
       }
@@ -142,7 +143,7 @@ public class HuespuedDao {
     List<Huesped> resultado = new ArrayList<>();
     try {
       final PreparedStatement statement = con
-      .prepareStatement("SELECT * FROM HUESPEDES WHERE nombre = ?");
+      .prepareStatement("SELECT * FROM HUESPEDES WHERE nombre = ? || borrar = TRUE");
 
       //statement.setLong(1, id);
       statement.setString(1, nombre);
@@ -172,7 +173,7 @@ public class HuespuedDao {
     List<Huesped> resultado = new ArrayList<>();
     try {
       final PreparedStatement statement = con
-      .prepareStatement("SELECT * FROM HUESPEDES WHERE nombre = ? AND fecha_de_nacimiento = ?");
+      .prepareStatement("SELECT * FROM HUESPEDES WHERE nombre = ? AND fecha_de_nacimiento = ? || borrar = TRUE");
 
       //statement.setLong(1, id);
       statement.setString(1, nombre);
@@ -188,7 +189,8 @@ public class HuespuedDao {
                                       resultSet.getString("apellido"),
                                       resultSet.getDate("fecha_de_nacimiento"),
                                       resultSet.getString("nacionalidad"),
-                                      resultSet.getString("telefono")));
+                                      resultSet.getString("telefono"),
+                                      resultSet.getLong("id_reserva")));
           }
         }
       }
@@ -199,8 +201,80 @@ public class HuespuedDao {
   }
 
 
-  public void borrarHuesped(){
-    
+  public void editarDatosHuesped(String nombre, String apellido, Date fecha_de_nacimiento, String nacionalidad, String telefono, long id){
+    try {
+      final PreparedStatement statement = con.prepareStatement(
+        "UPDATE HUESPEDES SET "
+        + "nombre = ?, "
+        + "apellido = ?, "
+        + "fecha_de_nacimiento = ?, "
+        + "nacionalidad = ?, "
+        + "telefono = ? "
+        + "WHERE id = ?"
+      );
+      try(statement){
+        statement.setString(1, nombre);
+        statement.setString(2, apellido);
+        statement.setDate(3, fecha_de_nacimiento);
+        statement.setString(4, nacionalidad);
+        statement.setString(5, telefono);
+        statement.setLong(6, id);
+
+        statement.execute();
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+  }
+  }
+
+  public void registrarHuespedF(Huesped huesped){
+    try {
+      PreparedStatement statement;
+      statement = con.prepareStatement(
+        "INSERT INTO HUESPEDES"
+        + "(id_reserva, nombre, apellido, fecha_de_nacimiento, nacionalidad, telefono, borrar)"
+        + "VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+
+      try(statement){
+        statement.setLong(1, huesped.getId_reserva());
+        statement.setString(2, huesped.getNombre());
+        statement.setString(3, huesped.getApellido());
+        statement.setDate(4, huesped.getfecha_de_nacimiento());
+        statement.setString(5, huesped.getNacionalidad());
+        statement.setString(6, huesped.getTelefono());
+        statement.setBoolean(7, true);
+
+        statement.execute();
+        final ResultSet resultSet = statement.getGeneratedKeys();
+
+        try(resultSet){
+          while (resultSet.next()) {
+            huesped.setId(resultSet.getLong(1));
+            
+            //System.out.println(String.format("Fue registrado el huesped: %s", huesped.getNombre()));
+        }
+      }
+    }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+  public void borrarHuesped(Long id){
+    try {
+      PreparedStatement statement;
+      statement = con.prepareStatement(
+        "UPDATE HUESPEDES SET"
+        +"borrar = FALSE"
+        +"WHERE ID = ?"
+      );
+      try(statement){
+        statement.setLong(1, id);
+        statement.execute();
+      }
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 
 }

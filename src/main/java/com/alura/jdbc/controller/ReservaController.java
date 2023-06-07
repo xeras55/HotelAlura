@@ -29,4 +29,12 @@ public class ReservaController {
   public List<Reserva> listarPorId1(Long id){
     return reservaDao.buscarPorId1(id);
   }
+
+  public void registrarReserva(Reserva reserva){
+    reservaDao.resgistrarReserva1(reserva);
+  }
+
+  public List<Reserva> buscarUltimoId(){
+    return reservaDao.buscarIdPasar();
+  }
 }

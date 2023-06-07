@@ -41,7 +41,21 @@ public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor
 }
 
 
-/*
+public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
+    this.fecha_de_entrada = fecha_de_entrada;
+    this.fecha_de_salida = fecha_de_salida;
+    this.valor = valor;
+    this.forma_de_pago = forma_de_pago;
+  }
+
+  
+
+  public Reserva(Long id) {
+  this.id = id;
+}
+
+
+  /*
   public Reserva(Date fechaDeEntrada, Date fechaDeSalida, Double valor, String formaDePago) {
     this.fechaDeEntrada = fechaDeEntrada;
     this.fechaDeSalida = fechaDeSalida;

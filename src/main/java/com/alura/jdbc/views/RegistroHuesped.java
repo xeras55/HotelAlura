@@ -7,12 +7,19 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JTextField;
 import java.awt.Color;
 
+import com.alura.jdbc.controller.HuespedController;
+import com.alura.jdbc.controller.ReservaController;
+import com.alura.jdbc.controller.ReservaHuespedController;
+import com.alura.jdbc.modelo.Huesped;
+import com.alura.jdbc.modelo.Reserva;
 import com.toedter.calendar.JDateChooser;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JLabel;
 //import javax.swing.JOptionPane;
 import java.awt.Font;
+import java.awt.List;
+
 import javax.swing.ImageIcon;
 //import javax.swing.JButton;
 import java.awt.SystemColor;
@@ -20,7 +27,9 @@ import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.Date;
 import java.text.Format;
+import java.util.ArrayList;
 //import java.awt.event.ActionEvent;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
@@ -28,7 +37,10 @@ import javax.swing.JSeparator;
 
 @SuppressWarnings("serial")
 public class RegistroHuesped extends JFrame {
-
+	
+	private static HuespedController huespedController;
+	private static ReservaController reservaController;
+	private static ReservaHuespedController reservaHuespedController;
 	private JPanel contentPane;
 	private JTextField txtNombre;
 	private JTextField txtApellido;
@@ -270,6 +282,7 @@ public class RegistroHuesped extends JFrame {
 		btnguardar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				registrarHueped();
 			}
 		});
 		btnguardar.setLayout(null);
@@ -346,5 +359,45 @@ public class RegistroHuesped extends JFrame {
 		int y = evt.getYOnScreen();
 		this.setLocation(x - xMouse, y - yMouse);
 	}
+
+
+	private void registrarHueped(){
+		huespedController = new HuespedController();
+		reservaController = new ReservaController();
+		ArrayList<Long> listaDeId = new ArrayList();
+
+		String nombreH = txtNombre.getText();
+		String apellidoH = txtApellido.getText();
+		java.util.Date selectFechaNacimiento = txtFechaN.getDate();
+		java.sql.Date fechaDeNacimiento = new java.sql.Date(selectFechaNacimiento.getTime());
+		String telefono = txtTelefono.getText();
+		String nacionalidad = txtNacionalidad.getSelectedItem().toString();
+
+		//reservaController.buscarUltimoId();
+		var listarid = reservaController.buscarUltimoId();
+
+		listarid.forEach(listaId -> listaDeId.add(listaId.getId()));
+		
+		var ultimoId = (listaDeId.get(listaDeId.size() - 1));
+		
+		Huesped huesped = new Huesped(nombreH, apellidoH, fechaDeNacimiento, nacionalidad, telefono,ultimoId);
+		huespedController.registrarHuspedF(huesped);
+		
+
+		/*
+		System.out.println(txtNombre.getText());
+		System.out.println(txtApellido.getText());
+		System.out.println(txtTelefono.getText());
+		
+		
+		System.out.println(fechaDeNacimiento);
+		System.out.println(txtNacionalidad.getSelectedItem());
+		x */
+		/*
+		txtNreserva
+		
+		 */
+	}
+
 
 }

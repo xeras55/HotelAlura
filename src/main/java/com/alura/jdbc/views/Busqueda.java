@@ -20,6 +20,8 @@ import javax.swing.JComboBox;
 import java.awt.Color;
 //import java.awt.SystemColor;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.SystemColor;
 
@@ -46,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
 	private static HuespedController HuespedController;
@@ -95,6 +98,7 @@ public class Busqueda extends JFrame {
 		txtBuscar = new JTextField();
 		txtBuscar.setBounds(536, 127, 193, 31);
 		txtBuscar.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+		txtBuscar.setFont(new Font("Roboto Black", Font.PLAIN, 20));
 		contentPane.add(txtBuscar);
 		txtBuscar.setColumns(10);
 
@@ -119,7 +123,7 @@ public class Busqueda extends JFrame {
 		modelo.addColumn("Fecha Check Out");
 		modelo.addColumn("Valor");
 		modelo.addColumn("Forma de Pago");
-		modelo.addColumn("Habitacion");
+		//modelo.addColumn("Habitacion");
 		JScrollPane scroll_table = new JScrollPane(tbReservas);
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/reservado.png")), scroll_table, null);
 		scroll_table.setVisible(true);
@@ -259,53 +263,114 @@ public class Busqueda extends JFrame {
 		separator_1_2.setBackground(new Color(12, 138, 199));
 		separator_1_2.setBounds(539, 159, 193, 2);
 		contentPane.add(separator_1_2);
-
+		//!funcion para busvar agregada con parametros de id, nombre y fecha de nacimiento */
 		JPanel btnbuscar = new JPanel();
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				ArrayList<String> separ = new ArrayList<>();
-				//todo
-				
-				int selected = panel.getSelectedIndex();
-				if (selected == 0) {
-					String valor = txtBuscar.getText();
-					Long valorLong = Long.parseLong(valor);
-					listarReservaPorId(valorLong);
+				ArrayList<String> fechaSeparadaArray = new ArrayList<>();
+				String valor = txtBuscar.getText();
+				if (valor == null ||valor.length() <=0)  {
+					System.out.println("vacio");
 				} else {
-					String valor = txtBuscar.getText();
-					Integer tipoDebusqueda = txtTipoDeBusqueda.getSelectedIndex();
-					if (tipoDebusqueda == 1) {
-						System.out.println("Busqueda Por id");
-						Long valorLong = Long.parseLong(valor);
-						listarHuespedPorId(valorLong);
-					} else if (tipoDebusqueda == 2){
-						System.out.println("Busqueda Por nombre y fecha");
-						String nombre = txtBuscar.getText();
-						System.out.println(nombre);
-						String[] arrayDatosSeparados = nombre.split(" ");
-						for (String i : arrayDatosSeparados) {
-							System.out.println(i);
-							separ.add(i);
-						}
-						String nombreSeparado = separ.get(0);
-						String fechaSeparada = separ.get(1);
-						SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-						java.sql.Date fechaConvertida = null;
-						try {
-							java.util.Date fechaString = formato.parse(fechaSeparada);
-							fechaConvertida = new java.sql.Date(fechaString.getTime());
-							System.out.println(fechaConvertida);
-							
-						} catch (ParseException e1) {
-							e1.printStackTrace();
-						}
-						//listarHuespedPorNombre(nombre);
-						listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
-					}
-					//Long valorLong = Long.parseLong(valor);
-					
+					System.out.println("no vacio");
 				}
+				//todo
+				try {
+					int selected = panel.getSelectedIndex();
+					if (selected == 0) {
+						
+						Long valorLong = Long.parseLong(valor);
+						listarReservaPorId(valorLong);
+					} else {
+						valor = txtBuscar.getText();
+						Integer tipoDebusqueda = txtTipoDeBusqueda.getSelectedIndex();
+						if (tipoDebusqueda == 1) {
+							System.out.println("Busqueda Por id");
+							Long valorLong = Long.parseLong(valor);
+							listarHuespedPorId(valorLong);
+						} else if (tipoDebusqueda == 2){
+							System.out.println("Busqueda Por nombre y fecha");
+							String nombre = txtBuscar.getText();
+							System.out.println(nombre);
+							String nombreSeparado = null;
+							String fechaSeparada = null;
+							SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+							java.sql.Date fechaConvertida = null;
+							java.util.Date fechaString = null;
+
+								String[] arrayDatosSeparados = nombre.split(" ");
+								
+							for (String i : arrayDatosSeparados) {
+								separ.add(i);
+								System.out.println(i);
+							}
+							
+							String stringFechaa = fechaSeparada = separ.get(1);
+							String[] arrayStringFecha = stringFechaa.split("/");
+							System.out.println(stringFechaa);
+							for (String j : arrayStringFecha) {
+								fechaSeparadaArray.add(j);
+								//System.out.println(j);
+							}
+							String diaDeArray = fechaSeparadaArray.get(0);
+							String mesDeArray = fechaSeparadaArray.get(1);
+							String anoDeArray = fechaSeparadaArray.get(2);
+							
+							if (diaDeArray.length() <= 1) {
+								System.out.println("dia incompleto");
+								JOptionPane.showMessageDialog(null, "Dia incorrecto", "Formato incorrecto", JOptionPane.WARNING_MESSAGE);
+							}
+							if (mesDeArray.length() <= 1) {
+								System.out.println("mes incompleto");
+								JOptionPane.showMessageDialog(null, "Mes incorrecto", "Formato incorrecto", JOptionPane.WARNING_MESSAGE);
+							}
+							if (anoDeArray.length() < 4) {
+								System.out.println("año incompleto");
+								JOptionPane.showMessageDialog(null, "Año incorrecto", "Formato incorrecto", JOptionPane.WARNING_MESSAGE);
+							}
+							//System.out.println(diaDeArray);
+							//System.out.println(mesDeArray);
+							//System.out.println(anoDeArray);
+
+							
+							try {
+								nombreSeparado = separ.get(0);
+								fechaSeparada = separ.get(1);
+							} catch (IndexOutOfBoundsException IOOB) {
+								System.out.println("Vacio");
+							}
+							
+
+							//SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+							//java.sql.Date fechaConvertida = null;
+
+							try {
+								//System.out.println("aaaaaaaaaaaaaaaaaa");
+								fechaString = formato.parse(fechaSeparada);
+								
+								fechaConvertida = new java.sql.Date(fechaString.getTime());
+								System.out.println(fechaConvertida);
+								
+							} catch (ParseException e1) {
+								e1.printStackTrace();
+								JFrame  jframeSinDatosValidos = new JFrame();
+								JOptionPane.showMessageDialog(null, "Formato invalido", "El formato ingresado no puede ser buscado", JOptionPane.WARNING_MESSAGE);
+							}
+							//listarHuespedPorNombre(nombre);
+							listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
+						}
+						//Long valorLong = Long.parseLong(valor);
+						
+					}
+				} catch (NumberFormatException  e2) {
+					System.out.println("No tengo nigun valor");
+					JFrame  jframeSinDatosValidos = new JFrame();
+					JOptionPane.showMessageDialog(null, "No has ingresado ningun valor", "Valor no valido", JOptionPane.WARNING_MESSAGE);
+				}
+
+
 				
 				//! working on it
 				/*
@@ -346,6 +411,9 @@ public class Busqueda extends JFrame {
 		btnbuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnbuscar);
 
+		
+		
+
 		JLabel lblBuscar = new JLabel("BUSCAR");
 		lblBuscar.setBounds(0, 0, 122, 35);
 		btnbuscar.add(lblBuscar);
@@ -360,6 +428,14 @@ public class Busqueda extends JFrame {
 		btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEditar);
 
+		//todo
+		btnEditar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+			}
+		});
+
 		JLabel lblEditar = new JLabel("EDITAR");
 		lblEditar.setHorizontalAlignment(SwingConstants.CENTER);
 		lblEditar.setForeground(Color.WHITE);
@@ -373,6 +449,13 @@ public class Busqueda extends JFrame {
 		btnEliminar.setBounds(767, 508, 122, 35);
 		btnEliminar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEliminar);
+
+		btnEliminar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				modificarValores();
+			}
+		});
 
 		JLabel lblEliminar = new JLabel("ELIMINAR");
 		lblEliminar.setHorizontalAlignment(SwingConstants.CENTER);
@@ -412,22 +495,24 @@ public class Busqueda extends JFrame {
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorId(id);
-		listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		//listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
 			new Object[] {huesped.getId(),
 										huesped.getNombre(),
 										huesped.getApellido(),
 										huesped.getfecha_de_nacimiento(),
 										huesped.getNacionalidad(),
-										huesped.getTelefono()
+										huesped.getTelefono(),
+										huesped.getId_reserva()
 								}));
+								
 	}
 
 	private void listarHuespedPorNombre(String nombre){
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorNombre(nombre);
-		listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		//listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
 			new Object[] {huesped.getId(),
 										huesped.getNombre(),
@@ -442,17 +527,28 @@ public class Busqueda extends JFrame {
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorNombreFecha(nombre, cum);
-		listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		//listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
 			new Object[] {huesped.getId(),
 										huesped.getNombre(),
 										huesped.getApellido(),
 										huesped.getfecha_de_nacimiento(),
 										huesped.getNacionalidad(),
-										huesped.getTelefono()
+										huesped.getTelefono(),
+										huesped.getId_reserva()
 								}));
 	}
 
+
+	private void limpiarTabla(){
+		int	vector = modeloHuesped.getDataVector().size();
+		for (int i = vector-1; i >= 0; i--) {
+			modeloHuesped.removeRow(i);
+		}
+	}
+	private void modificarValores(){
+	
+	}
 
 	}
 

@@ -21,8 +21,8 @@ public class ReservaDao {
   }
   
 
-  public void resgistrarReserva(Reserva reserva){
-    Long idReservaa;
+  public Long resgistrarReserva(Reserva reserva){
+    Long idReservaa = null;
     try {
       
       PreparedStatement statement;
@@ -44,7 +44,7 @@ public class ReservaDao {
         try(resultSet){
           while (resultSet.next()) {
             reserva.setId(resultSet.getLong(1));
-            idReservaa =reserva.getId();
+            idReservaa = reserva.getId();
            //System.out.println(String.format("Su reserva fue agendada con exito: %s", reserva.getId()));
         }
       }
@@ -52,6 +52,7 @@ public class ReservaDao {
   }catch (SQLException e) {
       throw new RuntimeException(e);
   }
+    return idReservaa;
 }
 
 
@@ -138,6 +139,62 @@ public List<Reserva> buscarPorId1(long id) {
   return resultado;
 }
 
+
+public List<Reserva> buscarIdPasar() {
+  List<Reserva> resultado = new ArrayList<>();
+  try {
+      final PreparedStatement statement = con
+              .prepareStatement("SELECT id FROM RESERVAS ");
+
+      try (statement) {
+          statement.execute();
+          final ResultSet resultSet = statement.getResultSet();
+          try (resultSet) {
+              while (resultSet.next()) {
+                  resultado.add(
+                          new Reserva(
+                          resultSet.getLong("id")));
+              }
+          }
+      }
+  } catch (SQLException e) {
+      throw new RuntimeException(e);
+  }
+  return resultado;
+}
+
+public void resgistrarReserva1(Reserva reserva){
+  Long idReservaa;
+  try {
+    
+    PreparedStatement statement;
+    statement = con.prepareStatement(
+      "INSERT INTO RESERVAS"
+      +"(fecha_de_entrada, fecha_de_salida, valor, forma_de_pago)"
+      +"VALUES (?, ?, ? ,?)", Statement.RETURN_GENERATED_KEYS);
+    
+    try(statement){
+      statement.setDate(1, reserva.getFecha_de_entrada());
+      statement.setDate(2, reserva.getFecha_de_salida());
+      statement.setDouble(3, reserva.getValor());
+      statement.setString(4, reserva.getForma_de_pago());
+      
+      
+      statement.execute();
+      final ResultSet resultSet = statement.getGeneratedKeys();
+
+      try(resultSet){
+        while (resultSet.next()) {
+          reserva.setId(resultSet.getLong(1));
+          idReservaa =reserva.getId();
+         //System.out.println(String.format("Su reserva fue agendada con exito: %s", reserva.getId()));
+      }
+    }
+  } 
+}catch (SQLException e) {
+    throw new RuntimeException(e);
+}
+}
 
 }
 
