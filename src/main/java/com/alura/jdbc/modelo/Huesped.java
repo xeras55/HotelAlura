@@ -97,7 +97,6 @@ public class Huesped {
     //this.borrar = borrar;
   }
 
-  
 
 
   public Huesped(Long id_reserva) {

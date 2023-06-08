@@ -48,6 +48,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Vector;
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
@@ -268,6 +269,7 @@ public class Busqueda extends JFrame {
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				limpiarTabla();
 				ArrayList<String> separ = new ArrayList<>();
 				ArrayList<String> fechaSeparadaArray = new ArrayList<>();
 				String valor = txtBuscar.getText();
@@ -432,7 +434,7 @@ public class Busqueda extends JFrame {
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				
+				modificarValores();
 			}
 		});
 
@@ -453,7 +455,8 @@ public class Busqueda extends JFrame {
 		btnEliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				modificarValores();
+				Long id = Long.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+				borrarHuesped(id);
 			}
 		});
 
@@ -546,9 +549,32 @@ public class Busqueda extends JFrame {
 			modeloHuesped.removeRow(i);
 		}
 	}
-	private void modificarValores(){
+
 	
+	private void modificarValores(){
+		HuespedController = new HuespedController();
+
+	if (tbHuespedes.getSelectedRow() < 0 || tbHuespedes.getSelectedColumn() < 0) {
+		JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+            return;
+	}
+	Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
+	.ifPresentOrElse(fila ->{
+		Long id = Long.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+		String nombre = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1);
+	String apellido = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2);
+	java.sql.Date fechaDeNacimiento = (java.sql.Date) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3);
+	String nacionalidad = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4);
+	String telefono = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5);
+
+	HuespedController.modificarHuesped(nombre, apellido, fechaDeNacimiento, nacionalidad, telefono, id);
+	
+	}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
 	}
 
+	private void borrarHuesped(Long id){
+		HuespedController = new HuespedController();
+		HuespedController.borrarHuesped(id);
+	}
 	}
 

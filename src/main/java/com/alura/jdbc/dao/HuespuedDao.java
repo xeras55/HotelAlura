@@ -115,7 +115,7 @@ public class HuespuedDao {
     List<Huesped> resultado = new ArrayList<>();
     try {
       final PreparedStatement statement = con
-      .prepareStatement("SELECT * FROM HUESPEDES WHERE id = ?  || borrar = TRUE");
+      .prepareStatement("SELECT * FROM HUESPEDES WHERE id = ?  AND borrar = TRUE");
 
       statement.setLong(1, id);
 
@@ -143,7 +143,7 @@ public class HuespuedDao {
     List<Huesped> resultado = new ArrayList<>();
     try {
       final PreparedStatement statement = con
-      .prepareStatement("SELECT * FROM HUESPEDES WHERE nombre = ? || borrar = TRUE");
+      .prepareStatement("SELECT * FROM HUESPEDES WHERE nombre = ? AND borrar = TRUE");
 
       //statement.setLong(1, id);
       statement.setString(1, nombre);
@@ -262,11 +262,9 @@ public class HuespuedDao {
 
   public void borrarHuesped(Long id){
     try {
-      PreparedStatement statement;
-      statement = con.prepareStatement(
-        "UPDATE HUESPEDES SET"
-        +"borrar = FALSE"
-        +"WHERE ID = ?"
+      final PreparedStatement statement = con.prepareStatement(
+        "UPDATE HUESPEDES SET borrar = false"
+        +" WHERE ID = ?"
       );
       try(statement){
         statement.setLong(1, id);
@@ -278,3 +276,12 @@ public class HuespuedDao {
   }
 
 }
+/*"UPDATE HUESPEDES SET "
+        +"borrar = 0" */
+/*
+ * "UPDATE HUESPEDES SET borrar = false"
+        +"WHERE ID = ?"
+ */
+/*
+ * "UPDATE HUESPEDES SET borrar = false WHERE ID = ?"
+ */
