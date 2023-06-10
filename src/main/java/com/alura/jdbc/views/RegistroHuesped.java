@@ -323,7 +323,6 @@ public class RegistroHuesped extends JFrame {
 				principal.setVisible(true);
 				dispose();
 			}
-
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnexit.setBackground(Color.red);
@@ -382,21 +381,6 @@ public class RegistroHuesped extends JFrame {
 		
 		Huesped huesped = new Huesped(nombreH, apellidoH, fechaDeNacimiento, nacionalidad, telefono,ultimoId);
 		huespedController.registrarHuspedF(huesped);
-		
-
-		/*
-		System.out.println(txtNombre.getText());
-		System.out.println(txtApellido.getText());
-		System.out.println(txtTelefono.getText());
-		
-		
-		System.out.println(fechaDeNacimiento);
-		System.out.println(txtNacionalidad.getSelectedItem());
-		x */
-		/*
-		txtNreserva
-		
-		 */
 	}
 
 

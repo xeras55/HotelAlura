@@ -173,7 +173,7 @@ public class HuespuedDao {
     List<Huesped> resultado = new ArrayList<>();
     try {
       final PreparedStatement statement = con
-      .prepareStatement("SELECT * FROM HUESPEDES WHERE nombre = ? AND fecha_de_nacimiento = ? || borrar = TRUE");
+      .prepareStatement("SELECT * FROM HUESPEDES WHERE nombre = ? AND fecha_de_nacimiento = ? AND borrar = TRUE");
 
       //statement.setLong(1, id);
       statement.setString(1, nombre);

@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 import com.alura.jdbc.controller.HuespedController;
 import com.alura.jdbc.controller.ReservaController;
+import com.google.protobuf.Empty;
 
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -51,6 +52,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Vector;
+
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
 	private static HuespedController HuespedController;
@@ -125,7 +127,7 @@ public class Busqueda extends JFrame {
 		modelo.addColumn("Fecha Check Out");
 		modelo.addColumn("Valor");
 		modelo.addColumn("Forma de Pago");
-		//modelo.addColumn("Habitacion");
+		// modelo.addColumn("Habitacion");
 		JScrollPane scroll_table = new JScrollPane(tbReservas);
 		panel.addTab("Reservas", new ImageIcon(Busqueda.class.getResource("/imagenes/reservado.png")), scroll_table, null);
 		scroll_table.setVisible(true);
@@ -134,12 +136,11 @@ public class Busqueda extends JFrame {
 		txtTipoDeBusqueda.setBounds(350, 128, 170, 20);
 		txtTipoDeBusqueda.setBackground(SystemColor.text);
 		txtTipoDeBusqueda.setFont(new Font("Roboto", Font.PLAIN, 12));
-		txtTipoDeBusqueda.setModel(new DefaultComboBoxModel(new String[]{
-			"Tipo de busqueda","ID", "Nombre y fecha de nacimiento"
+		txtTipoDeBusqueda.setModel(new DefaultComboBoxModel(new String[] {
+				"Tipo de busqueda", "ID", "Nombre y fecha de nacimiento"
 		}));
 		txtTipoDeBusqueda.setEnabled(false);
 		contentPane.add(txtTipoDeBusqueda);
-		
 
 		tbHuespedes = new JTable();
 		tbHuespedes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -168,8 +169,6 @@ public class Busqueda extends JFrame {
 				}
 			}
 		});
-
-		
 
 		JLabel lblNewLabel_2 = new JLabel("");
 		lblNewLabel_2.setIcon(new ImageIcon(Busqueda.class.getResource("/imagenes/Ha-100px.png")));
@@ -265,7 +264,7 @@ public class Busqueda extends JFrame {
 		separator_1_2.setBackground(new Color(12, 138, 199));
 		separator_1_2.setBounds(539, 159, 193, 2);
 		contentPane.add(separator_1_2);
-		//!funcion para busvar agregada con parametros de id, nombre y fecha de nacimiento */
+		// !funcion para busvar agregada con parametros de id, nombre y fecha de
 		JPanel btnbuscar = new JPanel();
 		btnbuscar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -275,137 +274,95 @@ public class Busqueda extends JFrame {
 				ArrayList<String> separ = new ArrayList<>();
 				ArrayList<String> fechaSeparadaArray = new ArrayList<>();
 				String valor = txtBuscar.getText();
-				if (valor == null ||valor.length() <=0)  {
-					System.out.println("vacio");
+
+				if (valor == null || valor.length() <= 0) {
+					JOptionPane.showMessageDialog(null, "Ingrese los datos correctos", "Formato incorrecto",
+							JOptionPane.WARNING_MESSAGE);
 				} else {
-					System.out.println("no vacio");
-				}
-				//todo
-				try {
-					int selected = panel.getSelectedIndex();
-					if (selected == 0) {
-						
-						Long valorLong = Long.parseLong(valor);
-						listarReservaPorId(valorLong);
-					} else {
-						valor = txtBuscar.getText();
-						Integer tipoDebusqueda = txtTipoDeBusqueda.getSelectedIndex();
-						if (tipoDebusqueda == 1) {
-							System.out.println("Busqueda Por id");
-							Long valorLong = Long.parseLong(valor);
-							listarHuespedPorId(valorLong);
-						} else if (tipoDebusqueda == 2){
-							System.out.println("Busqueda Por nombre y fecha");
-							String nombre = txtBuscar.getText();
-							System.out.println(nombre);
-							String nombreSeparado = null;
-							String fechaSeparada = null;
-							SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-							java.sql.Date fechaConvertida = null;
-							java.util.Date fechaString = null;
-
-								String[] arrayDatosSeparados = nombre.split(" ");
-								
-							for (String i : arrayDatosSeparados) {
-								separ.add(i);
-								System.out.println(i);
-							}
-							
-							String stringFechaa = fechaSeparada = separ.get(1);
-							String[] arrayStringFecha = stringFechaa.split("/");
-							System.out.println(stringFechaa);
-							for (String j : arrayStringFecha) {
-								fechaSeparadaArray.add(j);
-								//System.out.println(j);
-							}
-							String diaDeArray = fechaSeparadaArray.get(0);
-							String mesDeArray = fechaSeparadaArray.get(1);
-							String anoDeArray = fechaSeparadaArray.get(2);
-							
-							if (diaDeArray.length() <= 1) {
-								System.out.println("dia incompleto");
-								JOptionPane.showMessageDialog(null, "Dia incorrecto", "Formato incorrecto", JOptionPane.WARNING_MESSAGE);
-							}
-							if (mesDeArray.length() <= 1) {
-								System.out.println("mes incompleto");
-								JOptionPane.showMessageDialog(null, "Mes incorrecto", "Formato incorrecto", JOptionPane.WARNING_MESSAGE);
-							}
-							if (anoDeArray.length() < 4) {
-								System.out.println("año incompleto");
-								JOptionPane.showMessageDialog(null, "Año incorrecto", "Formato incorrecto", JOptionPane.WARNING_MESSAGE);
-							}
-							//System.out.println(diaDeArray);
-							//System.out.println(mesDeArray);
-							//System.out.println(anoDeArray);
-
-							
-							try {
-								nombreSeparado = separ.get(0);
-								fechaSeparada = separ.get(1);
-							} catch (IndexOutOfBoundsException IOOB) {
-								System.out.println("Vacio");
-							}
-							
-
-							//SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-							//java.sql.Date fechaConvertida = null;
-
-							try {
-								//System.out.println("aaaaaaaaaaaaaaaaaa");
-								fechaString = formato.parse(fechaSeparada);
-								
-								fechaConvertida = new java.sql.Date(fechaString.getTime());
-								System.out.println(fechaConvertida);
-								
-							} catch (ParseException e1) {
-								e1.printStackTrace();
-								JFrame  jframeSinDatosValidos = new JFrame();
-								JOptionPane.showMessageDialog(null, "Formato invalido", "El formato ingresado no puede ser buscado", JOptionPane.WARNING_MESSAGE);
-							}
-							//listarHuespedPorNombre(nombre);
-							listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
-						}
-						//Long valorLong = Long.parseLong(valor);
-						
-					}
-				} catch (NumberFormatException  e2) {
-					System.out.println("No tengo nigun valor");
-					JFrame  jframeSinDatosValidos = new JFrame();
-					JOptionPane.showMessageDialog(null, "No has ingresado ningun valor", "Valor no valido", JOptionPane.WARNING_MESSAGE);
-				}
-
-
-				
-				//! working on it
-				/*
-				if (selected == 0) {
-					System.out.println("soy reserva");
-				} else {
-					System.out.println("soy huesped");
-					String nombre = txtBuscar.getText();
-					System.out.println(nombre);
-					String[] arrayDatosSeparados = nombre.split(" ");
-					for (String i : arrayDatosSeparados) {
-						System.out.println(i);
-						separ.add(i);
-						
-					}
-					String nombreSeparado = separ.get(0);
-					String fechaSeparada = separ.get(1);
-					SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
-					java.sql.Date fechaConvertida = null;
 					try {
-						java.util.Date fechaString = formato.parse(fechaSeparada);
-						fechaConvertida = new java.sql.Date(fechaString.getTime());
-						System.out.println(fechaConvertida);
-						
-					} catch (ParseException e1) {
-						e1.printStackTrace();
+						int selected = panel.getSelectedIndex();
+						if (selected == 0) {
+							Long valorLong = Long.parseLong(valor);
+							listarReservaPorId(valorLong);
+						} else {
+							valor = txtBuscar.getText();
+							Integer tipoDebusqueda = txtTipoDeBusqueda.getSelectedIndex();
+							if (tipoDebusqueda == 1) {
+								// System.out.println("Busqueda Por id");
+								Long valorLong = Long.parseLong(valor);
+								listarHuespedPorId(valorLong);
+							} else if (tipoDebusqueda == 2) {
+								String nombre = txtBuscar.getText();
+								if (nombre == null) {
+									JOptionPane.showMessageDialog(null, "Favor de ingresar los datos", "Formato vacio",
+							JOptionPane.WARNING_MESSAGE);
+								}
+								String nombreSeparado = null;
+								String fechaSeparada = null;
+								SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+								java.sql.Date fechaConvertida = null;
+								java.util.Date fechaString = null;
+								String stringFechaa = null;
+								String[] arrayStringFecha = null;
+								String[] arrayDatosSeparados = nombre.split(" ");
+
+								for (String i : arrayDatosSeparados) {
+									separ.add(i);
+								}
+								try {
+									stringFechaa = fechaSeparada = separ.get(1);	
+									arrayStringFecha = stringFechaa.split("/");
+								System.out.println(stringFechaa);
+								for (String j : arrayStringFecha) {
+									fechaSeparadaArray.add(j);
+								}
+								String diaDeArray = fechaSeparadaArray.get(0);
+								String mesDeArray = fechaSeparadaArray.get(1);
+								String anoDeArray = fechaSeparadaArray.get(2);
+
+								if (diaDeArray.length() <= 1) {
+									JOptionPane.showMessageDialog(null, "Dia incorrecto", "Formato incorrecto",
+											JOptionPane.WARNING_MESSAGE);
+								}
+								if (mesDeArray.length() <= 1) {
+									JOptionPane.showMessageDialog(null, "Mes incorrecto", "Formato incorrecto",
+											JOptionPane.WARNING_MESSAGE);
+								}
+								if (anoDeArray.length() < 4) {
+									JOptionPane.showMessageDialog(null, "Año incorrecto", "Formato incorrecto",
+											JOptionPane.WARNING_MESSAGE);
+								}
+
+								try {
+									nombreSeparado = separ.get(0);
+									fechaSeparada = separ.get(1);
+								} catch (IndexOutOfBoundsException IOOB) {
+									JOptionPane.showMessageDialog(null, "Formato invalido", "El formato ingresado no puede ser buscado o esta vacio",
+											JOptionPane.WARNING_MESSAGE);
+								}
+								try {
+									fechaString = formato.parse(fechaSeparada);
+									fechaConvertida = new java.sql.Date(fechaString.getTime());
+								} catch (ParseException e1) {
+									JFrame jframeSinDatosValidos = new JFrame();
+									JOptionPane.showMessageDialog(null, "El formato ingresado no puede ser buscado", "Formato invalido",
+											JOptionPane.WARNING_MESSAGE);
+								}
+								listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
+
+								} catch (IndexOutOfBoundsException ioobe) {
+									JOptionPane.showMessageDialog(null, "El formato ingresado no puede ser buscado", "Formato invalido",
+											JOptionPane.WARNING_MESSAGE);
+								}
+							}
+						}
+					} catch (NumberFormatException e2) {
+						System.out.println("No tengo nigun valor");
+						JFrame jframeSinDatosValidos = new JFrame();
+						JOptionPane.showMessageDialog(null, "No has ingresado ningun valor", "Valor no valido",
+								JOptionPane.WARNING_MESSAGE);
 					}
-					//listarHuespedPorNombre(nombre);
-					//listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
 				}
-				*/
 
 			}
 		});
@@ -414,9 +371,6 @@ public class Busqueda extends JFrame {
 		btnbuscar.setBounds(748, 125, 122, 35);
 		btnbuscar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnbuscar);
-
-		
-		
 
 		JLabel lblBuscar = new JLabel("BUSCAR");
 		lblBuscar.setBounds(0, 0, 122, 35);
@@ -432,17 +386,16 @@ public class Busqueda extends JFrame {
 		btnEditar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 		contentPane.add(btnEditar);
 
-		//todo
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int selected = panel.getSelectedIndex();
-					if (selected == 0) {
-						modificarValoresReservas();
-					}else if(selected == 1){
-						modificarValores();
-						
-					}
+				if (selected == 0) {
+					modificarValoresReservas();
+				} else if (selected == 1) {
+					modificarValores();
+
+				}
 			}
 		});
 
@@ -464,13 +417,13 @@ public class Busqueda extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				int selected = panel.getSelectedIndex();
-					if (selected == 0) {
-						Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
-						borrarReservas(id);
-					}else if(selected == 1){
-						Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
-				borrarHuesped(id);
-					}
+				if (selected == 0) {
+					Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+					borrarReservas(id);
+				} else if (selected == 1) {
+					Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+					borrarHuesped(id);
+				}
 			}
 		});
 
@@ -496,195 +449,129 @@ public class Busqueda extends JFrame {
 		this.setLocation(x - xMouse, y - yMouse);
 	}
 
-	private void listarReservaPorId(Long id){
+	private void listarReservaPorId(Long id) {
 		ReservaController = new ReservaController();
-		
+
 		var listaReservas = ReservaController.listarPorId1(id);
 		listaReservas.forEach(reserva -> modelo.addRow(
-			new Object[] {reserva.getId(),
-										reserva.getFecha_de_entrada(),
-										reserva.getFecha_de_salida(),
-										reserva.getValor(),
-										reserva.getForma_de_pago()}));
-}
+				new Object[] { reserva.getId(),
+						reserva.getFecha_de_entrada(),
+						reserva.getFecha_de_salida(),
+						reserva.getValor(),
+						reserva.getForma_de_pago() }));
+	}
 
-	private void listarHuespedPorId(Long id){
+	private void listarHuespedPorId(Long id) {
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorId(id);
-		//listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		// listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
-			new Object[] {huesped.getId(),
-										huesped.getNombre(),
-										huesped.getApellido(),
-										huesped.getfecha_de_nacimiento(),
-										huesped.getNacionalidad(),
-										huesped.getTelefono(),
-										huesped.getId_reserva()
-								}));
-								
+				new Object[] { huesped.getId(),
+						huesped.getNombre(),
+						huesped.getApellido(),
+						huesped.getfecha_de_nacimiento(),
+						huesped.getNacionalidad(),
+						huesped.getTelefono(),
+						huesped.getId_reserva()
+				}));
+
 	}
 
-	private void listarHuespedPorNombre(String nombre){
+	private void listarHuespedPorNombre(String nombre) {
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorNombre(nombre);
-		//listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		// listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
-			new Object[] {huesped.getId(),
-										huesped.getNombre(),
-										huesped.getApellido(),
-										huesped.getfecha_de_nacimiento(),
-										huesped.getNacionalidad(),
-										huesped.getTelefono()
-								}));
+				new Object[] { huesped.getId(),
+						huesped.getNombre(),
+						huesped.getApellido(),
+						huesped.getfecha_de_nacimiento(),
+						huesped.getNacionalidad(),
+						huesped.getTelefono()
+				}));
 	}
 
-	private void listarHuespedPorNombreFecha(String nombre, Date cum){
+	private void listarHuespedPorNombreFecha(String nombre, Date cum) {
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorNombreFecha(nombre, cum);
-		//listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
+		// listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
-			new Object[] {huesped.getId(),
-										huesped.getNombre(),
-										huesped.getApellido(),
-										huesped.getfecha_de_nacimiento(),
-										huesped.getNacionalidad(),
-										huesped.getTelefono(),
-										huesped.getId_reserva()
-								}));
+				new Object[] { huesped.getId(),
+						huesped.getNombre(),
+						huesped.getApellido(),
+						huesped.getfecha_de_nacimiento(),
+						huesped.getNacionalidad(),
+						huesped.getTelefono(),
+						huesped.getId_reserva()
+				}));
 	}
 
-
-	private void limpiarTabla(){					
-		int	vector = modeloHuesped.getDataVector().size();
-		for (int i = vector-1; i >= 0; i--) {
+	private void limpiarTabla() {
+		int vector = modeloHuesped.getDataVector().size();
+		for (int i = vector - 1; i >= 0; i--) {
 			modeloHuesped.removeRow(i);
 		}
 	}
 
-		private void limpiarTablaReservas(){					
-		int	vector = modelo.getDataVector().size();
-		for (int i = vector-1; i >= 0; i--) {
+	private void limpiarTablaReservas() {
+		int vector = modelo.getDataVector().size();
+		for (int i = vector - 1; i >= 0; i--) {
 			modelo.removeRow(i);
 		}
 	}
 
-	
-	private void modificarValores(){
+	private void modificarValores() {
 		HuespedController = new HuespedController();
-	if (tbHuespedes.getSelectedRow() < 0 || tbHuespedes.getSelectedColumn() < 0) {
-		JOptionPane.showMessageDialog(this, "Por favor, elije un item");
-            return;
-	}
-	Optional.ofNullable(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), tbHuespedes.getSelectedColumn()))
-	.ifPresentOrElse(fila ->{
-		Long id = Long.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
-		String nombre = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1);
-	String apellido = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2);
-	//java.sql.Date fechaDeNacimiento = (java.sql.Date) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3);
-	String entrada = modelo.getValueAt(tbReservas.getSelectedRow(), 3).toString().trim();
-	Date fechaDeNacimiento = Date.valueOf(entrada);
-	String nacionalidad = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4);
-	String telefono = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5);
+		if (tbHuespedes.getSelectedRow() < 0 || tbHuespedes.getSelectedColumn() < 0) {
+			JOptionPane.showMessageDialog(this, "Por favor, elije un item", "WARNING", JOptionPane.WARNING_MESSAGE);
+		} else {
 
-	HuespedController.modificarHuesped(nombre, apellido, fechaDeNacimiento, nacionalidad, telefono, id);
-	JOptionPane.showMessageDialog(this, "El huesped número " + id + " se ha modificado.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-	}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+			Long id = Long.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+			String nombre = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1);
+			String apellido = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2);
+			// java.sql.Date fechaDeNacimiento = (java.sql.Date)
+			// modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3);
+			String entrada = modelo.getValueAt(tbReservas.getSelectedRow(), 3).toString().trim();
+			Date fechaDeNacimiento = Date.valueOf(entrada);
+			String nacionalidad = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4);
+			String telefono = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5);
+
+			HuespedController.modificarHuesped(nombre, apellido, fechaDeNacimiento, nacionalidad, telefono, id);
+			JOptionPane.showMessageDialog(this, "El huesped número " + id + " se ha modificado.", "INFORMATION",
+					JOptionPane.INFORMATION_MESSAGE);
+		}
 	}
 
-	private void borrarHuesped(Long id){
+	private void borrarHuesped(Long id) {
 		HuespedController = new HuespedController();
 		HuespedController.borrarHuesped(id);
 	}
-//!----------------------------------------
-	private void modificarValoresReservas(){
+
+	private void modificarValoresReservas() {
 		ReservaController = new ReservaController();
 		if (tbReservas.getSelectedRow() < 0 || tbReservas.getSelectedColumn() < 0) {
-            JOptionPane.showMessageDialog(this, "Por favor, selecciona una reserva!", "WARNING", JOptionPane.WARNING_MESSAGE);
-        } else {
-                Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+			JOptionPane.showMessageDialog(this, "Por favor, selecciona una reserva!", "WARNING", JOptionPane.WARNING_MESSAGE);
+		} else {
+			Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
 
-                String entrada = modelo.getValueAt(tbReservas.getSelectedRow(), 1).toString().trim();
-                Date fechaEntrada = Date.valueOf(entrada);
-                String salida = modelo.getValueAt(tbReservas.getSelectedRow(), 2).toString().trim();
-                Date fechaSalida = Date.valueOf(salida);
-                Double valor = Double.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 3).toString().trim());
-                String formaPago = modelo.getValueAt(tbReservas.getSelectedRow(), 4).toString().trim();
-								ReservaController.editarReservas(fechaEntrada, fechaSalida, valor, formaPago, id);
-                JOptionPane.showMessageDialog(this, "La reserva número " + id + " se ha modificado.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-					}
-		/*
-	if (tbReservas.getSelectedRow() < 0 || tbReservas.getSelectedColumn() < 0) {
-		JOptionPane.showMessageDialog(this, "Por favor, elije un item");
-            return;
-	}
-	//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
-	.ifPresentOrElse(fila ->{
-		Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
-	java.sql.Date fechaDeEntrada = null;
-	//String fecha_E = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 1);
-	Object objeto = modelo.getValueAt(tbReservas.getSelectedRow(), 1);
-if (objeto instanceof String) {
-    System.out.println("// El objeto es un String");
-		String fecha_E = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 1);
-		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date utilDate = null;
-		try {
-			utilDate = formater.parse(fecha_E);
-		} catch (ParseException e) {
-			e.printStackTrace();
+			String entrada = modelo.getValueAt(tbReservas.getSelectedRow(), 1).toString().trim();
+			Date fechaEntrada = Date.valueOf(entrada);
+			String salida = modelo.getValueAt(tbReservas.getSelectedRow(), 2).toString().trim();
+			Date fechaSalida = Date.valueOf(salida);
+			Double valor = Double.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 3).toString().trim());
+			String formaPago = modelo.getValueAt(tbReservas.getSelectedRow(), 4).toString().trim();
+			ReservaController.editarReservas(fechaEntrada, fechaSalida, valor, formaPago, id);
+			JOptionPane.showMessageDialog(this, "La reserva número " + id + " se ha modificado.", "INFORMATION",
+					JOptionPane.INFORMATION_MESSAGE);
 		}
-		fechaDeEntrada = new java.sql.Date(utilDate.getTime());
-		System.out.println(fechaDeEntrada + " trans");
-} else if (objeto instanceof java.sql.Date) {
-    System.out.println("// El objeto es un java.sql.Date");
-		fechaDeEntrada = (java.sql.Date) modelo.getValueAt(tbReservas.getSelectedRow(), 1);
-		System.out.println(fechaDeEntrada + " not trans");
-}
-	
-//!------------------------------------------------------------------------------------------------------
-java.sql.Date fechaDeSalida = null;
-		Object objeto1 = modelo.getValueAt(tbReservas.getSelectedRow(), 1);
-if (objeto1 instanceof String) {
-    System.out.println("// El objeto es un String");
-		String fecha_S = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 2);
-		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
-		java.util.Date utilDate = null;
-		try {
-			utilDate = formater.parse(fecha_S);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		fechaDeSalida = new java.sql.Date(utilDate.getTime());
-		
-		System.out.println(fechaDeSalida + " trans");
-} else if (objeto1 instanceof java.sql.Date) {
-    System.out.println("// El objeto es un java.sql.Date");
-		fechaDeSalida = (java.sql.Date) modelo.getValueAt(tbReservas.getSelectedRow(), 2);
-		System.out.println(fechaDeSalida + " not trans");
-}
-	//String fecha_Sal = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 2);
-	
-	Double valor = (Double) modelo.getValueAt(tbReservas.getSelectedRow(), 3);
-	String formaDePago = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 4);
-
-	//System.out.println(fechaDeEntrada);
-	//System.out.println(fecha_E);
-	
-	//System.out.println(fecha_Sal);
-	ReservaController.editarReservas(fechaDeEntrada, fechaDeSalida, valor, formaDePago, id);
-	
-	}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
-	*/
 	}
 
-	private void borrarReservas(Long id){
+	private void borrarReservas(Long id) {
 		ReservaController = new ReservaController();
 		ReservaController.borrarReservas(id);
 	}
 
-	}
-
+}
