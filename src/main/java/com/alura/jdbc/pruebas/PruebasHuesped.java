@@ -27,7 +27,8 @@ public class PruebasHuesped {
     //listarReservaPorId(2l);
     //resistrarHuespedReserva1();
     //modificarHuesped();
-    borrarHuesped();
+    modificarReserva();
+    //borrarHuesped();
   }
 
   private static void guardar() throws ParseException {
@@ -127,6 +128,20 @@ public class PruebasHuesped {
     java.sql.Date fechaDeNacimiento1 = new java.sql.Date(fechaUtil.getTime());
 
     HuespedController.modificarHuesped("Gerardo", "Parker", fechaDeNacimiento1, "Mexicana", "1234567890", 1);
+  }
+
+  private static void modificarReserva(){
+    ReservaController = new ReservaController();
+    Long id = 1l;
+
+                String entrada = "2023-06-02";
+                Date fechaEntrada = Date.valueOf(entrada);
+                String salida = "2023-06-05";
+                Date fechaSalida = Date.valueOf(salida);
+
+                Double valor = 500.0;
+                String formaPago = "Tarjeta efe";
+                ReservaController.editarReservas(fechaEntrada, fechaSalida, valor, formaPago, id);
   }
 
   private static void borrarHuesped(){

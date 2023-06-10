@@ -42,6 +42,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 //import java.util.Date;
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -270,6 +271,7 @@ public class Busqueda extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				limpiarTabla();
+				limpiarTablaReservas();
 				ArrayList<String> separ = new ArrayList<>();
 				ArrayList<String> fechaSeparadaArray = new ArrayList<>();
 				String valor = txtBuscar.getText();
@@ -434,7 +436,13 @@ public class Busqueda extends JFrame {
 		btnEditar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				modificarValores();
+				int selected = panel.getSelectedIndex();
+					if (selected == 0) {
+						modificarValoresReservas();
+					}else if(selected == 1){
+						modificarValores();
+						
+					}
 			}
 		});
 
@@ -455,8 +463,14 @@ public class Busqueda extends JFrame {
 		btnEliminar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				Long id = Long.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
+				int selected = panel.getSelectedIndex();
+					if (selected == 0) {
+						Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+						borrarReservas(id);
+					}else if(selected == 1){
+						Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
 				borrarHuesped(id);
+					}
 			}
 		});
 
@@ -543,17 +557,23 @@ public class Busqueda extends JFrame {
 	}
 
 
-	private void limpiarTabla(){
+	private void limpiarTabla(){					
 		int	vector = modeloHuesped.getDataVector().size();
 		for (int i = vector-1; i >= 0; i--) {
 			modeloHuesped.removeRow(i);
 		}
 	}
 
+		private void limpiarTablaReservas(){					
+		int	vector = modelo.getDataVector().size();
+		for (int i = vector-1; i >= 0; i--) {
+			modelo.removeRow(i);
+		}
+	}
+
 	
 	private void modificarValores(){
 		HuespedController = new HuespedController();
-
 	if (tbHuespedes.getSelectedRow() < 0 || tbHuespedes.getSelectedColumn() < 0) {
 		JOptionPane.showMessageDialog(this, "Por favor, elije un item");
             return;
@@ -563,12 +583,14 @@ public class Busqueda extends JFrame {
 		Long id = Long.valueOf(modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 0).toString());
 		String nombre = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 1);
 	String apellido = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 2);
-	java.sql.Date fechaDeNacimiento = (java.sql.Date) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3);
+	//java.sql.Date fechaDeNacimiento = (java.sql.Date) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 3);
+	String entrada = modelo.getValueAt(tbReservas.getSelectedRow(), 3).toString().trim();
+	Date fechaDeNacimiento = Date.valueOf(entrada);
 	String nacionalidad = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 4);
 	String telefono = (String) modeloHuesped.getValueAt(tbHuespedes.getSelectedRow(), 5);
 
 	HuespedController.modificarHuesped(nombre, apellido, fechaDeNacimiento, nacionalidad, telefono, id);
-	
+	JOptionPane.showMessageDialog(this, "El huesped número " + id + " se ha modificado.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
 	}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
 	}
 
@@ -576,5 +598,93 @@ public class Busqueda extends JFrame {
 		HuespedController = new HuespedController();
 		HuespedController.borrarHuesped(id);
 	}
+//!----------------------------------------
+	private void modificarValoresReservas(){
+		ReservaController = new ReservaController();
+		if (tbReservas.getSelectedRow() < 0 || tbReservas.getSelectedColumn() < 0) {
+            JOptionPane.showMessageDialog(this, "Por favor, selecciona una reserva!", "WARNING", JOptionPane.WARNING_MESSAGE);
+        } else {
+                Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+
+                String entrada = modelo.getValueAt(tbReservas.getSelectedRow(), 1).toString().trim();
+                Date fechaEntrada = Date.valueOf(entrada);
+                String salida = modelo.getValueAt(tbReservas.getSelectedRow(), 2).toString().trim();
+                Date fechaSalida = Date.valueOf(salida);
+                Double valor = Double.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 3).toString().trim());
+                String formaPago = modelo.getValueAt(tbReservas.getSelectedRow(), 4).toString().trim();
+								ReservaController.editarReservas(fechaEntrada, fechaSalida, valor, formaPago, id);
+                JOptionPane.showMessageDialog(this, "La reserva número " + id + " se ha modificado.", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+					}
+		/*
+	if (tbReservas.getSelectedRow() < 0 || tbReservas.getSelectedColumn() < 0) {
+		JOptionPane.showMessageDialog(this, "Por favor, elije un item");
+            return;
+	}
+	//SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+	Optional.ofNullable(modelo.getValueAt(tbReservas.getSelectedRow(), tbReservas.getSelectedColumn()))
+	.ifPresentOrElse(fila ->{
+		Long id = Long.valueOf(modelo.getValueAt(tbReservas.getSelectedRow(), 0).toString());
+	java.sql.Date fechaDeEntrada = null;
+	//String fecha_E = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 1);
+	Object objeto = modelo.getValueAt(tbReservas.getSelectedRow(), 1);
+if (objeto instanceof String) {
+    System.out.println("// El objeto es un String");
+		String fecha_E = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 1);
+		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date utilDate = null;
+		try {
+			utilDate = formater.parse(fecha_E);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		fechaDeEntrada = new java.sql.Date(utilDate.getTime());
+		System.out.println(fechaDeEntrada + " trans");
+} else if (objeto instanceof java.sql.Date) {
+    System.out.println("// El objeto es un java.sql.Date");
+		fechaDeEntrada = (java.sql.Date) modelo.getValueAt(tbReservas.getSelectedRow(), 1);
+		System.out.println(fechaDeEntrada + " not trans");
+}
+	
+//!------------------------------------------------------------------------------------------------------
+java.sql.Date fechaDeSalida = null;
+		Object objeto1 = modelo.getValueAt(tbReservas.getSelectedRow(), 1);
+if (objeto1 instanceof String) {
+    System.out.println("// El objeto es un String");
+		String fecha_S = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 2);
+		DateFormat formater = new SimpleDateFormat("yyyy-MM-dd");
+		java.util.Date utilDate = null;
+		try {
+			utilDate = formater.parse(fecha_S);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		fechaDeSalida = new java.sql.Date(utilDate.getTime());
+		
+		System.out.println(fechaDeSalida + " trans");
+} else if (objeto1 instanceof java.sql.Date) {
+    System.out.println("// El objeto es un java.sql.Date");
+		fechaDeSalida = (java.sql.Date) modelo.getValueAt(tbReservas.getSelectedRow(), 2);
+		System.out.println(fechaDeSalida + " not trans");
+}
+	//String fecha_Sal = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 2);
+	
+	Double valor = (Double) modelo.getValueAt(tbReservas.getSelectedRow(), 3);
+	String formaDePago = (String) modelo.getValueAt(tbReservas.getSelectedRow(), 4);
+
+	//System.out.println(fechaDeEntrada);
+	//System.out.println(fecha_E);
+	
+	//System.out.println(fecha_Sal);
+	ReservaController.editarReservas(fechaDeEntrada, fechaDeSalida, valor, formaDePago, id);
+	
+	}, () -> JOptionPane.showMessageDialog(this, "Por favor, elije un item"));
+	*/
+	}
+
+	private void borrarReservas(Long id){
+		ReservaController = new ReservaController();
+		ReservaController.borrarReservas(id);
+	}
+
 	}
 

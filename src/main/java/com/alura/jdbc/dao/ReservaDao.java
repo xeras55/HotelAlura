@@ -196,5 +196,45 @@ public void resgistrarReserva1(Reserva reserva){
 }
 }
 
+public void editarReservas(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago, Long id){
+  try {
+    final PreparedStatement statement = con.prepareStatement(
+      "UPDATE RESERVAS SET "
+      +"fecha_de_entrada = ?, "
+      +"fecha_de_salida = ?, "
+      +"valor = ?, "
+      +"forma_de_pago = ? "
+      +"WHERE id = ?"
+    );
+    try(statement){
+      statement.setDate(1, fecha_de_entrada);
+      statement.setDate(2, fecha_de_salida);
+      statement.setDouble(3, valor);
+      statement.setString(4, forma_de_pago);
+      statement.setLong(5, id);
+      statement.execute();
+    }
+  }catch (SQLException e) {
+    throw new RuntimeException(e);
+  }
+}
+
+
+
+public void borrarReservas(Long id){
+  try {
+    final PreparedStatement statement = con.prepareStatement(
+      "UPDATE RESERVAS SET borrar = false"
+      +" WHERE ID = ?"
+    );
+    try(statement){
+      statement.setLong(1, id);
+      statement.execute();
+    }
+  } catch (SQLException e) {
+    throw new RuntimeException(e);
+  }
+}
+
 }
 

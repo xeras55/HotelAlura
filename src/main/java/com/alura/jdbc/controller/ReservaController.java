@@ -1,5 +1,6 @@
 package com.alura.jdbc.controller;
 
+import java.sql.Date;
 import java.util.List;
 
 import com.alura.jdbc.dao.ReservaDao;
@@ -36,5 +37,13 @@ public class ReservaController {
 
   public List<Reserva> buscarUltimoId(){
     return reservaDao.buscarIdPasar();
+  }
+
+  public void editarReservas(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String formaDePago, Long id){
+    reservaDao.editarReservas(fecha_de_entrada, fecha_de_salida, valor, formaDePago, id);
+  }
+
+  public void borrarReservas(Long id){
+    reservaDao.borrarReservas(id);
   }
 }
