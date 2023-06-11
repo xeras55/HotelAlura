@@ -24,10 +24,11 @@
 
 <p>El usuario quedará registrado y será ligado automáticamente a la reserva echa anteriormente, se ingresará el nombre, apellido y fecha de nacimiento y se omitirá la opción de agregar la reserva.</p>
 <img src="src\main\java\imagenes\screens\segundo.jpg">
-<h3>Búsqueda de las reservas</h3>
+<img src="src\main\java\imagenes\screens\datosGuardados.png">
+<h3>2.- Búsqueda de las reservas</h3>
 <p>Para poder buscar las reservas podemos usar únicamente el id, en caso de que el cliente no recuerde su id, podremos buscar al huésped de distintas formas.</p>
 <img src="src\main\java\imagenes\screens\busquedaR.png">
-<h3>Búsqueda Huéspedes</h3>
+<h3>3.- Búsqueda Huéspedes</h3>
 <p>Para buscar a los huéspedes tenemos dos métodos, el primero es con el id.</p>
 <img src="src\main\java\imagenes\screens\busquedaH1.png">
 
@@ -37,3 +38,10 @@
 <img src="src\main\java\imagenes\screens\busquedasinId.png">
 <img src="src\main\java\imagenes\screens\busquedaSinFecha.png">
 <img src="src\main\java\imagenes\screens\busquedaSinDia.png">
+<h3>Posibles cambios en futuras actualizaciones:</h3>
+<ul>
+  <li>Implementar el inicio de sesión desde la base de datos</li>
+  <li>Agregar más usuarios para el ingreso al sistema</li>
+  <li>Hacer más óptima la forma de ingresar la fecha cuando se busca por medio de nombre y fecha.</li>
+  <li>Eliminar el campo para ingresar el id de reserva, ya que este se hace automáticamente</li>
+</ul>

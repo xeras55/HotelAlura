@@ -37,7 +37,7 @@ import javax.swing.JSeparator;
 
 @SuppressWarnings("serial")
 public class RegistroHuesped extends JFrame {
-	
+
 	private static HuespedController huespedController;
 	private static ReservaController reservaController;
 	private static ReservaHuespedController reservaHuespedController;
@@ -283,6 +283,9 @@ public class RegistroHuesped extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				registrarHueped();
+				Exito exito = new Exito();
+				exito.setVisible(true);
+				dispose();
 			}
 		});
 		btnguardar.setLayout(null);
@@ -323,6 +326,7 @@ public class RegistroHuesped extends JFrame {
 				principal.setVisible(true);
 				dispose();
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnexit.setBackground(Color.red);
@@ -359,8 +363,7 @@ public class RegistroHuesped extends JFrame {
 		this.setLocation(x - xMouse, y - yMouse);
 	}
 
-
-	private void registrarHueped(){
+	private void registrarHueped() {
 		huespedController = new HuespedController();
 		reservaController = new ReservaController();
 		ArrayList<Long> listaDeId = new ArrayList();
@@ -372,16 +375,15 @@ public class RegistroHuesped extends JFrame {
 		String telefono = txtTelefono.getText();
 		String nacionalidad = txtNacionalidad.getSelectedItem().toString();
 
-		//reservaController.buscarUltimoId();
+		// reservaController.buscarUltimoId();
 		var listarid = reservaController.buscarUltimoId();
 
 		listarid.forEach(listaId -> listaDeId.add(listaId.getId()));
-		
+
 		var ultimoId = (listaDeId.get(listaDeId.size() - 1));
-		
-		Huesped huesped = new Huesped(nombreH, apellidoH, fechaDeNacimiento, nacionalidad, telefono,ultimoId);
+
+		Huesped huesped = new Huesped(nombreH, apellidoH, fechaDeNacimiento, nacionalidad, telefono, ultimoId);
 		huespedController.registrarHuspedF(huesped);
 	}
-
 
 }

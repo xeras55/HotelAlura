@@ -346,7 +346,8 @@ public class ReservasView extends JFrame {
 				*/
 				registrarReserva();
 				registro.setVisible(true);
-				System.out.println("aaaaaaaaaa");				
+				dispose();
+				//System.out.println("aaaaaaaaaa");				
 			}
 		});
 		btnsiguiente.setLayout(null);
