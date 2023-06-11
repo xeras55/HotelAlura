@@ -1,2 +1,1 @@
-# HotelAlura
-Challenge ONE
+# Challenge Oracle One - Hotel Alura
