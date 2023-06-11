@@ -53,4 +53,4 @@
   <li>Diseño proporcionado por el equipo de Oracle Next Education y Alura Latam</li>
   <li>Logica echa por Gerardo Sanchez Martinez</li>
 </ul>
-<a href="https://www.linkedin.com/in/gerardosm/"> <img src="src\main\java\imagenes\screens\icons8-linkedin.svg"></a>
+<a href="https://www.linkedin.com/in/gerardosm/" target="_blank"> <img src="src\main\java\imagenes\screens\icons8-linkedin.svg"></a>
