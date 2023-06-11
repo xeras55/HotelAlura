@@ -12,9 +12,12 @@
 </ul>
 <h2>Tecnologías utilizadas:</h2>
 <ul>
-  <li>MySQL Community Server <img src="src\main\java\imagenes\screens\icons8-mysql.svg"></li>
-  <li>VS Code <img src="src\main\java\imagenes\screens\icons8-estudio-visual.svg"></li>
-  <li>Java <img src="src\main\java\imagenes\screens\icons8-logotipo-de-java-coffee-cup.svg"></li>
+  <li>MySQL Community Server</li>
+  <img src="src\main\java\imagenes\screens\icons8-mysql.svg">
+  <li>VS Code</li>
+  <img src="src\main\java\imagenes\screens\icons8-visual-studio-code-2019.svg">
+  <li>Java</li>
+  <img src="src\main\java\imagenes\screens\icons8-logotipo-de-java-coffee-cup.svg">
 </ul>
 <h2>Aplicación</h2>
 <h3>1.- Registro reserva</h3>
