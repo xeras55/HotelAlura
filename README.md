@@ -42,6 +42,12 @@
 <ul>
   <li>Implementar el inicio de sesión desde la base de datos</li>
   <li>Agregar más usuarios para el ingreso al sistema</li>
-  <li>Hacer más óptima la forma de ingresar la fecha cuando se busca por medio de nombre y fecha.</li>
+  <li>Hacer más óptima la forma de ingresar la fecha cuando se busca por medio de nombre y fecha</li>
   <li>Eliminar el campo para ingresar el id de reserva, ya que este se hace automáticamente</li>
 </ul>
+<h3>Colaboradores</h3>
+<ul>
+  <li>Diseño proporcionado por el equipo de Oracle Next Education y Alura Latam</li>
+  <li>Logica echa por Gerardo Sanchez Martinez</li>
+</ul>
+<a href="https://www.linkedin.com/in/gerardosm/"> <img src="src\main\java\imagenes\screens\icons8-linkedin.svg"></a>
