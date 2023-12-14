@@ -10,7 +10,7 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 public class ConnectionFactory {
   public DataSource dataSource;
 
-  public ConnectionFactory(){
+  public ConnectionFactory() {
     ComboPooledDataSource pooledDataSource = new ComboPooledDataSource();
     pooledDataSource.setJdbcUrl("jdbc:mysql://localhost/hotel?useTimeZone=true&serverTimezone=UTC");
     pooledDataSource.setUser("root");
@@ -19,12 +19,12 @@ public class ConnectionFactory {
 
     this.dataSource = pooledDataSource;
   }
-  
-  public Connection recuperaConexion(){
-    try{
-    return this.dataSource.getConnection();
-  }catch(SQLException e){
-    throw new RuntimeException(e);
-  }
+
+  public Connection recuperaConexion() {
+    try {
+      return this.dataSource.getConnection();
+    } catch (SQLException e) {
+      throw new RuntimeException(e);
+    }
   }
 }

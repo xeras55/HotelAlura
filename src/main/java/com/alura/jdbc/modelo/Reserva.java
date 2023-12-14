@@ -3,7 +3,7 @@ package com.alura.jdbc.modelo;
 import java.sql.Date;
 
 public class Reserva {
-  
+
   private Long id;
 
   private Date fechaDeEntrada;
@@ -22,8 +22,7 @@ public class Reserva {
 
   private String habitacion;
 
-
-public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
+  public Reserva(Long id, Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
     this.id = id;
     this.fecha_de_entrada = fecha_de_entrada;
     this.fecha_de_salida = fecha_de_salida;
@@ -31,46 +30,25 @@ public Reserva(Long id,Date fecha_de_entrada, Date fecha_de_salida, Double valor
     this.forma_de_pago = forma_de_pago;
   }
 
-  
   public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago, String habitacion) {
-  this.fecha_de_entrada = fecha_de_entrada;
-  this.fecha_de_salida = fecha_de_salida;
-  this.valor = valor;
-  this.forma_de_pago = forma_de_pago;
-  this.habitacion = habitacion;
-}
+    this.fecha_de_entrada = fecha_de_entrada;
+    this.fecha_de_salida = fecha_de_salida;
+    this.valor = valor;
+    this.forma_de_pago = forma_de_pago;
+    this.habitacion = habitacion;
+  }
 
-
-public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
+  public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String forma_de_pago) {
     this.fecha_de_entrada = fecha_de_entrada;
     this.fecha_de_salida = fecha_de_salida;
     this.valor = valor;
     this.forma_de_pago = forma_de_pago;
   }
-
-  
 
   public Reserva(Long id) {
-  this.id = id;
-}
-
-
-  /*
-  public Reserva(Date fechaDeEntrada, Date fechaDeSalida, Double valor, String formaDePago) {
-    this.fechaDeEntrada = fechaDeEntrada;
-    this.fechaDeSalida = fechaDeSalida;
-    this.valor = valor;
-    this.formaDePago = formaDePago;
-  }
-
-  public Reserva(Long id, Date fechaDeEntrada, Date fechaDeSalida, Double valor, String formaDePago) {
     this.id = id;
-    this.fechaDeEntrada = fechaDeEntrada;
-    this.fechaDeSalida = fechaDeSalida;
-    this.valor = valor;
-    this.formaDePago = formaDePago;
   }
- */
+
   public Long getId() {
     return id;
   }
@@ -104,41 +82,43 @@ public Reserva(Date fecha_de_entrada, Date fecha_de_salida, Double valor, String
   }
 
   public String getFormaDePago() {
-    return formaDePago; 
+    return formaDePago;
   }
 
   public void setFormaDePago(String formaDePago) {
     this.formaDePago = formaDePago;
   }
+
   public Date getFecha_de_entrada() {
     return fecha_de_entrada;
   }
+
   public void setFecha_de_entrada(Date fecha_de_entrada) {
     this.fecha_de_entrada = fecha_de_entrada;
   }
+
   public Date getFecha_de_salida() {
     return fecha_de_salida;
   }
+
   public void setFecha_de_salida(Date fecha_de_salida) {
     this.fecha_de_salida = fecha_de_salida;
   }
+
   public String getForma_de_pago() {
     return forma_de_pago;
   }
+
   public void setForma_de_pago(String forma_de_pago) {
     this.forma_de_pago = forma_de_pago;
   }
-
 
   public String getHabitacion() {
     return habitacion;
   }
 
-
   public void setHabitacion(String habitacion) {
     this.habitacion = habitacion;
   }
 
-
-  
 }

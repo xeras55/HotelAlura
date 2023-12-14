@@ -9,49 +9,34 @@ import javax.swing.table.DefaultTableModel;
 
 import com.alura.jdbc.controller.HuespedController;
 import com.alura.jdbc.controller.ReservaController;
-import com.google.protobuf.Empty;
-
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.DefaultComboBoxModel;
-//import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 
 import java.awt.Color;
-//import java.awt.SystemColor;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Font;
 import java.awt.SystemColor;
 
-//import java.awt.event.ActionListener;
-//import java.util.List;
-//import java.awt.event.ActionEvent;
 import javax.swing.JTabbedPane;
 import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 import javax.swing.JSeparator;
 import javax.swing.ListSelectionModel;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionAdapter;
 //import java.util.Date;
 import java.sql.Date;
-import java.text.DateFormat;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Vector;
 
 @SuppressWarnings("serial")
 public class Busqueda extends JFrame {
@@ -295,7 +280,7 @@ public class Busqueda extends JFrame {
 								String nombre = txtBuscar.getText();
 								if (nombre == null) {
 									JOptionPane.showMessageDialog(null, "Favor de ingresar los datos", "Formato vacio",
-							JOptionPane.WARNING_MESSAGE);
+											JOptionPane.WARNING_MESSAGE);
 								}
 								String nombreSeparado = null;
 								String fechaSeparada = null;
@@ -310,45 +295,46 @@ public class Busqueda extends JFrame {
 									separ.add(i);
 								}
 								try {
-									stringFechaa = fechaSeparada = separ.get(1);	
+									stringFechaa = fechaSeparada = separ.get(1);
 									arrayStringFecha = stringFechaa.split("/");
-								System.out.println(stringFechaa);
-								for (String j : arrayStringFecha) {
-									fechaSeparadaArray.add(j);
-								}
-								String diaDeArray = fechaSeparadaArray.get(0);
-								String mesDeArray = fechaSeparadaArray.get(1);
-								String anoDeArray = fechaSeparadaArray.get(2);
+									System.out.println(stringFechaa);
+									for (String j : arrayStringFecha) {
+										fechaSeparadaArray.add(j);
+									}
+									String diaDeArray = fechaSeparadaArray.get(0);
+									String mesDeArray = fechaSeparadaArray.get(1);
+									String anoDeArray = fechaSeparadaArray.get(2);
 
-								if (diaDeArray.length() <= 1) {
-									JOptionPane.showMessageDialog(null, "Dia incorrecto", "Formato incorrecto",
-											JOptionPane.WARNING_MESSAGE);
-								}
-								if (mesDeArray.length() <= 1) {
-									JOptionPane.showMessageDialog(null, "Mes incorrecto", "Formato incorrecto",
-											JOptionPane.WARNING_MESSAGE);
-								}
-								if (anoDeArray.length() < 4) {
-									JOptionPane.showMessageDialog(null, "Año incorrecto", "Formato incorrecto",
-											JOptionPane.WARNING_MESSAGE);
-								}
+									if (diaDeArray.length() <= 1) {
+										JOptionPane.showMessageDialog(null, "Dia incorrecto", "Formato incorrecto",
+												JOptionPane.WARNING_MESSAGE);
+									}
+									if (mesDeArray.length() <= 1) {
+										JOptionPane.showMessageDialog(null, "Mes incorrecto", "Formato incorrecto",
+												JOptionPane.WARNING_MESSAGE);
+									}
+									if (anoDeArray.length() < 4) {
+										JOptionPane.showMessageDialog(null, "Año incorrecto", "Formato incorrecto",
+												JOptionPane.WARNING_MESSAGE);
+									}
 
-								try {
-									nombreSeparado = separ.get(0);
-									fechaSeparada = separ.get(1);
-								} catch (IndexOutOfBoundsException IOOB) {
-									JOptionPane.showMessageDialog(null, "Formato invalido", "El formato ingresado no puede ser buscado o esta vacio",
-											JOptionPane.WARNING_MESSAGE);
-								}
-								try {
-									fechaString = formato.parse(fechaSeparada);
-									fechaConvertida = new java.sql.Date(fechaString.getTime());
-								} catch (ParseException e1) {
-									JFrame jframeSinDatosValidos = new JFrame();
-									JOptionPane.showMessageDialog(null, "El formato ingresado no puede ser buscado", "Formato invalido",
-											JOptionPane.WARNING_MESSAGE);
-								}
-								listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
+									try {
+										nombreSeparado = separ.get(0);
+										fechaSeparada = separ.get(1);
+									} catch (IndexOutOfBoundsException IOOB) {
+										JOptionPane.showMessageDialog(null, "Formato invalido",
+												"El formato ingresado no puede ser buscado o esta vacio",
+												JOptionPane.WARNING_MESSAGE);
+									}
+									try {
+										fechaString = formato.parse(fechaSeparada);
+										fechaConvertida = new java.sql.Date(fechaString.getTime());
+									} catch (ParseException e1) {
+										JFrame jframeSinDatosValidos = new JFrame();
+										JOptionPane.showMessageDialog(null, "El formato ingresado no puede ser buscado", "Formato invalido",
+												JOptionPane.WARNING_MESSAGE);
+									}
+									listarHuespedPorNombreFecha(nombreSeparado, fechaConvertida);
 
 								} catch (IndexOutOfBoundsException ioobe) {
 									JOptionPane.showMessageDialog(null, "El formato ingresado no puede ser buscado", "Formato invalido",
@@ -465,7 +451,6 @@ public class Busqueda extends JFrame {
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorId(id);
-		// listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
 				new Object[] { huesped.getId(),
 						huesped.getNombre(),
@@ -482,7 +467,6 @@ public class Busqueda extends JFrame {
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorNombre(nombre);
-		// listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
 				new Object[] { huesped.getId(),
 						huesped.getNombre(),
@@ -497,7 +481,6 @@ public class Busqueda extends JFrame {
 		HuespedController = new HuespedController();
 
 		var listaHuespedes = HuespedController.listarPorNombreFecha(nombre, cum);
-		// listaHuespedes.forEach(huesped -> System.out.println(huesped.getId()));
 		listaHuespedes.forEach(huesped -> modeloHuesped.addRow(
 				new Object[] { huesped.getId(),
 						huesped.getNombre(),
