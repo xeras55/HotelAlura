@@ -12,6 +12,10 @@ import java.util.List;
 import com.alura.jdbc.modelo.Huesped;
 
 public class HuespuedDao {
+
+  /*
+   * Clases de acceso a bases de datos para registrar y obtener datos de huéspedes
+   */
   private Connection con;
 
   public HuespuedDao(Connection con) {

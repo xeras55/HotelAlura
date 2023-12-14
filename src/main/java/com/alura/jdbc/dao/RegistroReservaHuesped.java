@@ -9,6 +9,9 @@ import com.alura.jdbc.modelo.Huesped;
 import com.alura.jdbc.modelo.Reserva;
 
 public class RegistroReservaHuesped {
+  /*
+   * Clases de acceso a bases de datos para registrar a los huéspedes
+   */
 
   private Connection con;
 

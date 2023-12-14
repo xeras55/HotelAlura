@@ -8,6 +8,11 @@ import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.modelo.Reserva;
 
 public class ReservaController {
+  /*
+   * Controlador que mantiene las funciones para las reservas
+   * Metodos implementados en la carpeta views para las plantillas
+   * correspondientes
+   */
 
   private ReservaDao reservaDao;
 

@@ -3,6 +3,9 @@ package com.alura.jdbc.modelo;
 import java.sql.Date;
 
 public class Reserva {
+  /*
+   * Clase para representar un objeto de tipo Reserva
+   */
 
   private Long id;
 

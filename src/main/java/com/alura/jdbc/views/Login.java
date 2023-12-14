@@ -202,14 +202,13 @@ public class Login extends JFrame {
 		});
 		txtContrasena.addKeyListener(new KeyAdapter() {
 			@Override
-			public void keyPressed(KeyEvent e){
+			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-					//System.out.println("Enter");
+					// System.out.println("Enter");
 					Login();
-			}
+				}
 			}
 		});
-
 
 		btnLogin.setBackground(SystemColor.textHighlight);
 		btnLogin.setBounds(65, 431, 122, 44);

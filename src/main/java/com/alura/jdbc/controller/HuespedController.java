@@ -8,6 +8,11 @@ import com.alura.jdbc.factory.ConnectionFactory;
 import com.alura.jdbc.modelo.Huesped;
 
 public class HuespedController {
+  /*
+   * Controlador que mantiene las funciones para los huespedes
+   * Metodos implementados en la carpeta views para las plantillas
+   * correspondientes
+   */
 
   private HuespuedDao huespuedDao;
 

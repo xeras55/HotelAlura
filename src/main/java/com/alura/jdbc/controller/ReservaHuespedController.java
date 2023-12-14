@@ -6,6 +6,11 @@ import com.alura.jdbc.modelo.Huesped;
 import com.alura.jdbc.modelo.Reserva;
 
 public class ReservaHuespedController {
+  /*
+   * Controlador que mantiene las funciones para las reservas
+   * Metodos implementados en la carpeta views para las plantillas
+   * correspondientes
+   */
   private RegistroReservaHuesped registroReservaHuesped;
 
   public ReservaHuespedController() {

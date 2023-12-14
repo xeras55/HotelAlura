@@ -3,6 +3,9 @@ package com.alura.jdbc.modelo;
 import java.sql.Date;
 
 public class Huesped {
+  /*
+   * Clase para representar un objeto de tipo Huesped
+   */
 
   private Long id;
 
