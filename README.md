@@ -3,6 +3,7 @@
 <h2>Descripción</h2>
  <p>Actividad presentada por el equipo de Oracle ONE para poner a prueba las habilidades obtenidas durante el curso. Enfocado principalmente al uso de JDBC para poder conectarnos a bases de datos.
 </p>
+<p>Para obtener más información, revise el código y los comentarios.</p>
  <h2>Funciones principales </h2>
 <ul>
   <li>Login: permite acceder de forma sencilla únicamente como administrador.</li>
